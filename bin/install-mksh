@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+#
+#
+
+if which mksh && which busybox; then
+  bash_setup BOLD "==== Already installed: {{mksh}}, {{busybox}}"
+  exit 0
+fi
+
+if which pacman; then
+
+  if ! which mksh; then
+    pacman -S mksh
+    exit 0
+  fi
+
+  if ! which busybox; then
+    pacman -S busybox
+  fi
+
+  exit 0
+fi # === pacman
+
+bash_setup RED "=== Don't know how to install on: $(uname -osr)"
