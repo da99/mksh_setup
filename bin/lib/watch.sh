@@ -23,9 +23,14 @@ watch () {
     path="${dir}$(echo "$CHANGE" | cut -d' ' -f 3)"
     file="$(basename $path)"
 
-    echo -n "=== $CHANGE"
-    [[ ! -f "$path" ]] && echo " (Skipping)" && continue || :
-    echo ""
+    if [[ ! -f "$path" ]] ; then
+      echo -e "\n\n\e[1m=======================================================\e[0m"
+      echo -e "=== $CHANGE (Skipping)"
+      continue
+    else
+      echo -e "=== $CHANGE"
+    fi
+
     $cmd || { stat="$?"; bash_setup RED "=== {{Failed}}: $stat"; }
   done
 } # === end function
