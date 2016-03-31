@@ -17,7 +17,7 @@ watch () {
   # === From an answer by "technosaurus":
   #     http://stackoverflow.com/a/18295696/841803
   echo "=== Watching: $args -> $cmd"
-  while read -r CHANGE; do
+  inotifywait --quiet --monitor --event close_write --exclude .git/ $args | while read -r CHANGE; do
     dir=$(echo "$CHANGE" | cut -d' ' -f 1)
     op=$(echo "$CHANGE" | cut -d' ' -f 2)
     path="${dir}$(echo "$CHANGE" | cut -d' ' -f 3)"
@@ -26,7 +26,7 @@ watch () {
     echo -n "=== $CHANGE"
     [[ ! -f "$path" ]] && echo " (Skipping)" && continue || :
     echo ""
-    $cmd || { stat="$?"; echo -e "=== ${Red}Failed${Color_Off}: $stat"; }
-  done < <(inotifywait --quiet --monitor --event close_write --exclude .git/ $args)
+    $cmd || { stat="$?"; bash_setup RED "=== {{Failed}}: $stat"; }
+  done
 } # === end function
 

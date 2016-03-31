@@ -3,19 +3,11 @@
 # === {{CMD}}  "content"  "delimiter"
 
 specs () {
-  bash_setup join-lines "1\n2\n3" ","
-
-  # "a, b"
-  bash_setup join-lines  "a\nb" ", "
-
-  # "a, b"
-  bash_setup join-lines  "a\nb\n" ", "
-
-  # "a"
-  bash_setup join-lines  "a\n" ", "
-
-  # "a"
-  bash_setup join-lines  "a" ", "
+  should-match "1,2,3" 'mksh_setup join-lines  "1\n2\n3" ","'
+  should-match "a, b"  'mksh_setup join-lines  "a\nb" ", "'
+  should-match "a, b"  'mksh_setup join-lines  "a\nb\n" ", "'
+  should-match "a"     'mksh_setup join-lines  "a\n" ", "'
+  should-match "a"     'mksh_setup join-lines  "a" ", "'
 }
 
 join-lines () {
@@ -40,5 +32,6 @@ join-lines () {
     new_content="${new_content}$LINE"
   done
 
+  echo "$new_content"
 } # === end function
 
