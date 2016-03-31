@@ -21,6 +21,9 @@ specs () {
 
   should-match-output "$(echo -e this is ${BOrange}bright orange {curly}${Reset} and ${BOrange}this {too}${Reset})" \
     'mksh_setup MULTI "this is BRIGHT_ORANGE{{bright orange {curly}}} and {{this {too}}}"'
+
+  COLOR="RED" should-match-output "$(echo -e this is ${Red}red${Reset})" \
+    'mksh_setup MULTI "this is {{red}}"'
 }
 
 COLOR_TO_CODE () {
@@ -74,8 +77,8 @@ MULTI () {
   fi
 
   local +x REPLACE=""
-  local +x COLOR="BOLD"
-  local +x DEFAULT_COLOR="BOLD"
+  local +x COLOR="${COLOR:-BOLD}"
+  local +x DEFAULT_COLOR="$COLOR"
   local +x TEMP_COLOR=""
   local +x MATCH=""
 
