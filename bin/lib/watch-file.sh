@@ -5,7 +5,7 @@ watch-file () {
   #  For more info on inotifywait:
   #    http://manpages.ubuntu.com/manpages/hardy/man1/inotifywait.1.html
   #
-  local TARGET="$(realpath -m "$1")"; shift
+  local TARGET="$(readlink -m "$1")"; shift
   local cmd="$@"
 
   if [[ -z "$@" ]]
@@ -21,7 +21,7 @@ watch-file () {
     op=$(echo "$CHANGE" | cut -d' ' -f 2)
     path="${dir}$(echo "$CHANGE" | cut -d' ' -f 3)"
     file="$(basename $path)"
-    local FULLPATH="$(realpath -m "$path")"
+    local FULLPATH="$(readlink -m "$path")"
 
     echo -n "=== $CHANGE"
 

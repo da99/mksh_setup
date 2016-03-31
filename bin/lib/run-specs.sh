@@ -91,6 +91,32 @@ should-exit () {
   fi
 }
 
+#  should-match-output  "EXPECT"   "my-cmd -with -args"
+#  should-match-output  "EXPECT"   "ACTUAL"
+should-match-output () {
+  local +x EXPECT="$1"; shift
+  local +x CMD="$1"; shift
+  local +x STAT
+  local +x ACTUAL
+
+  set +e
+  ACTUAL="$(eval "$CMD")"
+  STAT="$?"
+  set -e
+
+  if [[ "$ACTUAL" != "$EXPECT" ]]; then
+    if [[ -z "$ACTUAL" ]]; then
+      ACTUAL="[NULL STRING]"
+    fi
+    exec >&2
+    echo -e -n "=== MISMATCH: \"${Red}"; echo -E -n "$ACTUAL";
+    echo -e -n "${Color_Off}\"  !=  \""; echo -E    "$EXPECT"
+    exit 1
+  else
+    mksh_setup GREEN  "=== {{Passed}}: " -n; echo -E $CMD
+  fi
+} # === should-match-output
+
 #  should-match  "EXPECT"   "my-cmd -with -args"
 #  should-match  "EXPECT"   "ACTUAL"
 should-match () {
@@ -101,26 +127,27 @@ should-match () {
 
   local +x CMD_FILE="$(echo $CMD | grep -Po "([^[:space:]]+)" | head -n 1)"
 
-  if [[ "$CMD" == "$EXPECT" ]] || ! which "$CMD_FILE" >/dev/null; then
+  if [[ "$CMD" == "$EXPECT" ]] || ! which "$CMD_FILE" >/dev/null 2>&1; then
     ACTUAL="$CMD"
   else
+    set +e
     ACTUAL="$(eval "$CMD")"
+    STAT="$?"
+    set -e
   fi
-  STAT="$?"
-  set -e
 
   if [[ "$ACTUAL" != "$EXPECT" ]]; then
     if [[ -z "$ACTUAL" ]]; then
       ACTUAL="[NULL STRING]"
     fi
     exec >&2
-    echo -e -n '=== MISMATCH: "${Red}'; echo -E -n "$ACTUAL";
-    echo -e -n '"  !=  "'; echo -E -n "$EXPECT"
+    echo -e -n "=== MISMATCH: \"${Red}"; echo -E -n "$ACTUAL";
+    echo -e -n "${Color_Off}\"  !=  \""; echo -E    "$EXPECT"
     exit 1
   else
     mksh_setup GREEN  "=== {{Passed}}: " -n; echo -E $CMD
   fi
-}
+} # === should-match
 
 # should-match-regexp  "my regexp"  "my cmd -with -args"
 should-match-regexp () {

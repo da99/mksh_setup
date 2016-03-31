@@ -7,7 +7,7 @@ dir-to-json () {
   if [[ -z "$DIR" ]]; then
     DIR="$PWD"
   fi
-  DIR="$(realpath -m "$DIR")"
+  DIR="$(readlink -m "$DIR")"
 
 
   cd $THIS_DIR
