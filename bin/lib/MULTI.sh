@@ -82,19 +82,25 @@ MULTI () {
   local +x REPLACE=""
   local +x COLOR="${COLOR:-BOLD}"
   local +x DEFAULT_COLOR="$COLOR"
-  local +x TEMP_COLOR=""
   local +x MATCH=""
+  local +x NOT_A_COLOR=""
 
   local +x IFS=$'\n'
   for PARTIAL in $(echo "$TEXT" | grep -Po "([A-Za-z\_\-]+)?\{\{(.+?)\}\}(?!\})"); do
+    NOT_A_COLOR=""
     COLOR=$(echo "$PARTIAL" | cut -d'{' -f1)
     if [[ -z "$COLOR" ]]; then
       COLOR="$DEFAULT_COLOR"
     else
-      DEFAULT_COLOR="$COLOR"
+      if [[ -z "$(COLOR_TO_CODE $COLOR 2>/dev/null)" ]]; then
+        NOT_A_COLOR="$COLOR"
+        COLOR="$DEFAULT_COLOR"
+      else
+        DEFAULT_COLOR="$COLOR"
+      fi
     fi
     MATCH=$(echo "$PARTIAL" | cut -d'{' -f3- | rev | cut -d'}' -f3- | rev)
-    REPLACE="$(COLOR_TO_CODE "$COLOR")$MATCH$(COLOR_TO_CODE "RESET")"
+    REPLACE="$NOT_A_COLOR$(COLOR_TO_CODE "$COLOR" 2>/dev/null || "${DEFAULT_COLOR}")$MATCH$(COLOR_TO_CODE "RESET")"
     TEXT="${TEXT//$PARTIAL/$REPLACE}"
   done
 

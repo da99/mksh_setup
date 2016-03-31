@@ -117,10 +117,10 @@ should-match-output () {
     fi
     exec >&2
     echo -e -n "=== MISMATCH: \"${Red}"; echo -E -n "$ACTUAL";
-    echo -e -n "${Color_Off}\"  !=  \""; echo -E    "$EXPECT"
+    echo -e -n "${Color_Off}\"  !=  \""; echo -E    "$EXPECT\""
     exit 1
   else
-    mksh_setup GREEN  "=== {{Passed}}: " -n; echo -E $CMD
+    mksh_setup GREEN "=== {{Passed}}: $(echo -E $CMD)"
   fi
 } # === should-match-output
 
@@ -152,7 +152,7 @@ should-match () {
     echo -e -n "${Color_Off}\"  !=  \""; echo -E    "$EXPECT"
     exit 1
   else
-    mksh_setup GREEN  "=== {{Passed}}: " -n; echo -E $CMD
+    mksh_setup GREEN "-n" "=== {{Passed}}: "; echo -E $CMD
   fi
 } # === should-match
 
@@ -169,9 +169,9 @@ should-match-regexp () {
   set -e
 
   if echo "$ACTUAL" | grep -P "$EXPECT"; then
-    bash_setup GREEN  "=== {{Passed}}: $CMD"
+    mksh_setup GREEN "=== {{Passed}}: $CMD"
   else
-    bash_setup RED "=== EXPECTED: {{$ACTUAL}}  =~  $EXPECT"
+    mksh_setup RED "=== EXPECTED: {{$ACTUAL}}  =~  BOLD{{$EXPECT}}"
   fi
 }
 

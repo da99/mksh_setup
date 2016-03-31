@@ -5,6 +5,6 @@ upcase () {
 } # === end function
 
 specs () {
-  should-match "UPCASE"  "bash_setup upcase upcase"
-  should-match "UPCASES" "bash_setup upcase uPcaSeS"
+  should-match-output "UPCASE"  "mksh_setup upcase upcase"
+  should-match-output "UPCASES" "mksh_setup upcase uPcaSeS"
 }
