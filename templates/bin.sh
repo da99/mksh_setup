@@ -26,6 +26,13 @@ case $action in
       exit 0
     fi
 
+    # === Check progs/bin:
+    if [[ -f "progs/bin/$action" ]]; then
+      export PATH="$PWD/progs/bin:$PATH"
+      progs/bin/$action $@
+      exit 0
+    fi
+
     # === It's an error:
     echo "!!! Unknown action: $action" 1>&2
     exit 1
