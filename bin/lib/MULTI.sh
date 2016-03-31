@@ -41,6 +41,9 @@ COLOR_TO_CODE () {
     BRed)
       VAL='\e[1;31m'
       ;;
+    BRIGHT_RED|Bright_Red)
+      VAL='\e[1;31m'
+      ;;
     RED|Red)
       VAL='\e[0;31m'
       ;;

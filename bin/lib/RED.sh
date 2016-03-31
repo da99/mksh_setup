@@ -1,9 +1,17 @@
 
-source $THIS_DIR/bin/lib/COLORIZE.sh
+source $THIS_DIR/bin/lib/MULTI.sh
 
 specs () {
-  bash_setup RED "this is {{red}}"
-  bash_setup RED "this is {{red: {red}}}"
+  local +x BRed='\e[1;31m'
+  local +x Reset='\e[0m'
+  local +x Green='\e[0;32m'
+
+  should-match "$(echo -e this is ${BRed}red${Reset})" \
+    "$(bash_setup RED "this is {{red}}" 2>&1)"
+  should-match "$(echo -e this is ${BRed}red: {red}${Reset})" \
+    "$(bash_setup RED "this is {{red: {red}}}" 2>&1)"
+  should-match "$(echo -e this is ${BRed}red: {red}${Reset} and ${Green}green${Reset})" \
+    "$(bash_setup RED "this is {{red: {red}}} and GREEN{{green}}" 2>&1)"
 }
 
 # === {{CMD}}  "my text"
@@ -12,5 +20,5 @@ specs () {
 RED () {
   local BRed='\e[1;31m'
   local Red='\e[0;31m'
-  COLORIZE "$BRed" "$@" 1>&2
+  COLOR="BRIGHT_RED" MULTI "$@" 1>&2
 } # === end function
