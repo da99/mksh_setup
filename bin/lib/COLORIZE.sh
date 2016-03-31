@@ -1,13 +1,15 @@
 
 specs () {
   bash_setup COLORIZE "$(tput bold)"  "this is {{bold}}"
-  bash_setup COLORIZE "$(tput bold)"  "this is {{bold}}"
+  bash_setup COLORIZE '\e[1;32m'      "this is {{Bright Green}}"
   bash_setup COLORIZE "$(tput bold)"  "this is {{bold}} and {{this too}}"
-  bash_setup COLORIZE "$(tput bold)"  "this is {{bold {curly}}} and {{this {too}}}"
   bash_setup COLORIZE "$(tput bold)"  "this has no {{new line}}"  "-n"
   echo " ... but this does"
-  bash_setup COLORIZE "$(tput bold)"  "this has is {{multi
+  bash_setup COLORIZE '\e[1;33m'  "this has is {{multi
+  Bright
+  Orange
   line}}"
+  bash_setup COLORIZE  "$(tput bold)"  "this is {{bold {curly}}} and {{this {too}}}"
 }
 
 # === {{CMD}}  "MY_ESCAPE_SEQUENCE"  "my {{text}}"

@@ -31,23 +31,29 @@ run-specs () {
   fi
 
   local FILE_ARG="$1"; shift
-  local FILE
 
   if [[ -f "$FILE_ARG" ]]; then
-    FILE="$FILE_ARG"
-  else
-    FILE="$(find bin/lib -type f -iname "$FILE_ARG")"
+    local + x FILE="$FILE_ARG"
+    source "$FILE"
+    # NOTE: We can't use 'specs || report-fail'
+    #  because of this:
+    #  http://stackoverflow.com/questions/4072984/set-e-in-a-function
+    trap 'report-fail $?' EXIT
+    specs
+    trap - EXIT
+    exit 0
   fi
 
-  source "$FILE"
+  FILES="$(find bin/lib -type f -iname "$FILE_ARG")"
 
-  # NOTE: We can't use 'specs || report-fail'
-  #  because of this:
-  #  http://stackoverflow.com/questions/4072984/set-e-in-a-function
-  trap 'report-fail $?' EXIT
-  specs
-  trap - EXIT
+  for FILE in $(echo "$FILES"); do
+    if [[ ! -s "$FILE" ]]; then
+      mksh_setup RED "!!! File not found: {{$FILE_ARG}}"
+      exit 0
+    fi
 
+    mksh_setup run-specs "$FILE"
+  done
 }
 
 report-fail () {
@@ -104,6 +110,7 @@ should-match-output () {
   STAT="$?"
   set -e
 
+  # if [[ "$(echo -E $ACTUAL)" != "$(echo -E $EXPECT)" ]]; then
   if [[ "$ACTUAL" != "$EXPECT" ]]; then
     if [[ -z "$ACTUAL" ]]; then
       ACTUAL="[NULL STRING]"
