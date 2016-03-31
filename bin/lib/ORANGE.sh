@@ -1,7 +1,7 @@
 
 # === {{CMD}}  "my string that is {{ orange }}"
 
-source $THIS_DIR/bin/lib/MULTI.sh
+source $THIS_DIR/bin/lib/COLORIZE.sh
 
 specs () {
   local +x RESET='\e[0m'
@@ -18,7 +18,7 @@ specs () {
 }
 
 ORANGE () {
-  COLOR="BRIGHT_ORANGE" MULTI "$@"
+  COLOR="BRIGHT_ORANGE" COLORIZE "$@"
 }
 
 

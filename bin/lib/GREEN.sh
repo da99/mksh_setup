@@ -1,7 +1,7 @@
 # === {{CMD}}  "{{Passed}}: my text"
 # === {{CMD}}  "mY {{teSts}} aLl PaSs"
 
-source $THIS_DIR/bin/lib/MULTI.sh
+source $THIS_DIR/bin/lib/COLORIZE.sh
 
 specs () {
   local +x RESET='\e[0m'
@@ -28,6 +28,6 @@ specs () {
 }
 
 GREEN () {
-  COLOR="BRIGHT_GREEN" MULTI "$@"
+  COLOR="BRIGHT_GREEN" COLORIZE "$@"
 } # === end function
 

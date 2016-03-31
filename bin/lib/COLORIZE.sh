@@ -11,19 +11,19 @@ specs () {
   local +x BOrange='\e[1;33m'
 
   should-match-output "$(echo -e this is ${Bold}bold${Reset})" \
-    'mksh_setup MULTI "this is BOLD{{bold}}"'
+    'mksh_setup COLORIZE "this is BOLD{{bold}}"'
 
   should-match-output "$(echo -e this is ${BGreen}Bright Green${Reset})" \
-    'mksh_setup MULTI "this is BRIGHT_GREEN{{Bright Green}}"'
+    'mksh_setup COLORIZE "this is BRIGHT_GREEN{{Bright Green}}"'
 
   should-match-output "$(echo -e this is ${Orange}orange${Reset} and ${Orange}this too${Reset})" \
-    'mksh_setup MULTI "this is ORANGE{{orange}} and {{this too}}"'
+    'mksh_setup COLORIZE "this is ORANGE{{orange}} and {{this too}}"'
 
   should-match-output "$(echo -e this is ${BOrange}bright orange {curly}${Reset} and ${BOrange}this {too}${Reset})" \
-    'mksh_setup MULTI "this is BRIGHT_ORANGE{{bright orange {curly}}} and {{this {too}}}"'
+    'mksh_setup COLORIZE "this is BRIGHT_ORANGE{{bright orange {curly}}} and {{this {too}}}"'
 
   COLOR="RED" should-match-output "$(echo -e this is ${Red}red${Reset})" \
-    'mksh_setup MULTI "this is {{red}}"'
+    'mksh_setup COLORIZE "this is {{red}}"'
 }
 
 COLOR_TO_CODE () {
@@ -69,7 +69,7 @@ COLOR_TO_CODE () {
 # === {{CMD}}  "my {{text}}"
 # === {{CMD}}  "my {{text}}"   "-n -E"
 # === {{CMD}}  "my {{text}}"   "-n -E"
-MULTI () {
+COLORIZE () {
 
   if [[ "$#" -eq 2 ]]; then
     local +x ECHO_ARGS="$1"; shift

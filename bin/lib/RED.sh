@@ -1,5 +1,5 @@
 
-source $THIS_DIR/bin/lib/MULTI.sh
+source $THIS_DIR/bin/lib/COLORIZE.sh
 
 specs () {
   local +x BRed='\e[1;31m'
@@ -20,5 +20,5 @@ specs () {
 RED () {
   local BRed='\e[1;31m'
   local Red='\e[0;31m'
-  COLOR="BRIGHT_RED" MULTI "$@" 1>&2
+  COLOR="BRIGHT_RED" COLORIZE "$@" 1>&2
 } # === end function

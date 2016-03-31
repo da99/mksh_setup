@@ -1,7 +1,7 @@
 
 # === {{CMD}}  "my string that is {{ bold }}"
 
-source $THIS_DIR/bin/lib/MULTI.sh
+source $THIS_DIR/bin/lib/COLORIZE.sh
 
 specs () {
   local +x RESET='\e[0m'
@@ -15,7 +15,7 @@ specs () {
 }
 
 BOLD () {
-  COLOR="BOLD" MULTI "$@"
+  COLOR="BOLD" COLORIZE "$@"
 }
 
 
