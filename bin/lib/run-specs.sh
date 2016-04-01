@@ -46,7 +46,7 @@ run-specs () {
     exit 0
   fi
 
-  FILES="$(find bin/lib -type f -iname "$FILE_ARG*")"
+  FILES="$(find bin/lib -type f -name "$FILE_ARG*")"
 
   if [[ -z "$FILES" ]]; then
     mksh_setup RED "!!! Files {{not found}}: BOLD{{$FILE_ARG}}"
@@ -88,12 +88,16 @@ should-pass () {
 }
 
 should-exit () {
-  local expect="$1"; shift
-  local actual
-  local cmd="$@"
+  local +x expect="$1"; shift
+  local +x actual
+  local +x cmd="$@"
 
   set +e
-  eval "$@"
+  if [[ "$expect" -ne 0 ]]; then
+    eval "$@" 2>/dev/null
+  else
+    eval "$@"
+  fi
   actual="$?"
   set -e
 
@@ -179,8 +183,39 @@ should-match-regexp () {
     mksh_setup GREEN "=== {{Passed}}: $CMD"
   else
     mksh_setup RED "=== EXPECTED: {{$ACTUAL}}  =~  BOLD{{$EXPECT}}"
+    exit 1
   fi
-}
+} # === should-match-regexp ()
+
+should-create-file-with-content () {
+  local +x FILE="$1";    shift
+  local +x CONTENT="$1"; shift
+  local +x CMD="$1";     shift
+
+  set +e
+  eval "$CMD" >/dev/null
+  local +x STAT=$?
+  set -e
+
+  if [[ $STAT -ne 0 ]]; then
+    mksh_setup RED "=== Exited {{$STAT}}: BOLD{{$CMD}}"
+    exit $STAT
+  fi
+
+  if [[ ! -e "$FILE" ]]; then
+    mksh_setup RED "=== File {{not created}}: BOLD{{$FILE}} in command BOLD{{$CMD}}"
+    exit 1
+  fi
+
+  local +x ACTUAL="$(cat "$FILE")"
+  if [[ "$ACTUAL" != "$CONTENT" ]]; then
+    mksh_setup RED "=== File does {{not match}}: BOLD{{$FILE}} in command BOLD{{$CMD}}"
+    mksh_setup RED "{{$ACTUAL}} != BOLD{{$CONTENT}}"
+    exit 1
+  fi
+
+  mksh_setup GREEN "=== {{PASSED}}: $CMD"
+} # === should-create-file-with-content ()
 
 
 
