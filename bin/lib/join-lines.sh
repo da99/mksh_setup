@@ -12,17 +12,19 @@ specs () {
 
 join-lines () {
 
-  content="$1"; shift
-  delim="$1"; shift
+  local +x content="$1"; shift
+  local +x delim="$1"; shift
+
   while [[ -n "$@" ]]; do
     content="$content\n$delim"
     delim="$1"; shift
   done
-  new_content=""
-  total="$(echo -e "$content" | wc -l)"
-  counter=0
 
-  for LINE in $(echo -e "$content"); do
+  local +x new_content=""
+  local +x counter=0
+
+  local +x IFS=$'\n'
+  for LINE in $(echo "$content"); do
     trim="$(echo -n $LINE)"
     [[ -z "$trim" ]] && continue || :
 
