@@ -47,6 +47,12 @@ COLOR_TO_CODE () {
     RED|Red)
       VAL='\e[0;31m'
       ;;
+    BOLD_WHITE)
+      VAL="$(tput bold)$(tput setaf 7)"
+      ;;
+    BOLD_WHITE_ON_GREEN)
+      VAL="$(tput bold)$(tput setaf 7)$(tput setab 2)"
+      ;;
     GREEN|Green)
       VAL='\e[0;32m'
       ;;
