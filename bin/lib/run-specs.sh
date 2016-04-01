@@ -9,7 +9,9 @@ BGreen='\e[1;32m'
 Orange='\e[0;33m'
 BOrange='\e[1;33m'
 
-# === {{CMD}}  spec-run  my-shell-script.sh
+# === {{CMD}}  spec-run                               # Run all specs in bin/lib
+# === {{CMD}}  spec-run  path/to/my-shell-script.sh
+# === {{CMD}}  spec-run  my-partial-name
 run-specs () {
 
   if [[ -z "$@" ]]; then
@@ -44,7 +46,12 @@ run-specs () {
     exit 0
   fi
 
-  FILES="$(find bin/lib -type f -iname "$FILE_ARG")"
+  FILES="$(find bin/lib -type f -iname "$FILE_ARG*")"
+
+  if [[ -z "$FILES" ]]; then
+    mksh_setup RED "!!! Files {{not found}}: BOLD{{$FILE_ARG}}"
+    exit 1
+  fi
 
   for FILE in $(echo "$FILES"); do
     if [[ ! -s "$FILE" ]]; then
