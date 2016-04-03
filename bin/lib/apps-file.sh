@@ -14,11 +14,16 @@ apps-file () {
     echo "=== $DIR"
     cd $DIR
     local +x BIN=bin/$(basename "$DIR")
+    if ! git status | grep "$BIN"; then
+      echo "skipping: $DIR - No change to $BIN"
+      continue
+    fi
+
     if [[ ! -f "$BIN" ]]; then
       echo "skipping: $DIR - Not found: $BIN"
     fi
-    git diff
-    echo "=== Continue? y/n"
+    git status
+    mksh_setup ORANGE "=== {{Continue}}? y/n"
     read ANS
     if test "$ANS" != "y" ; then
       echo "skipping: $DIR by request"
