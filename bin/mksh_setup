@@ -27,7 +27,7 @@ case $action in
     fi
 
     # === It's an error:
-    echo "!!! Unknown action: $action" 1>&2
+    echo "!!! Unknown action in ${0}: $THE_ARGS" 1>&2
     exit 1
     ;;
 
