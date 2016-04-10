@@ -137,11 +137,18 @@ should-match-output () {
 
 #  should-match  "EXPECT"   "my-cmd -with -args"
 #  should-match  "EXPECT"   "ACTUAL"
+#  should-match  "EXPECT"   "ACTUAL"    "description of operation"
 should-match () {
   local +x EXPECT="$1"; shift
   local +x CMD="$1"; shift
   local +x STAT
   local +x ACTUAL
+
+  local +x DESC="$CMD"
+
+  if [[ ! -z "$@" ]]; then
+    DESC="$1"; shift
+  fi
 
   local +x CMD_FILE="$(echo $CMD | grep -Po "([^[:space:]]+)" | head -n 1)"
 
@@ -163,7 +170,7 @@ should-match () {
     echo -e -n "${Color_Off}\"  !=  \""; echo -E    "$EXPECT"
     exit 1
   else
-    mksh_setup GREEN "-n" "=== {{Passed}}: "; echo -E $CMD
+    mksh_setup GREEN "-n" "=== {{Passed}}: "; echo -E "$DESC"
   fi
 } # === should-match
 
