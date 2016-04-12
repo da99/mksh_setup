@@ -24,6 +24,13 @@ specs () {
 
   COLOR="RED" should-match-output "$(echo -e this is ${Red}red${Reset})" \
     'mksh_setup COLORIZE "this is {{red}}"'
+
+
+  # NOTE: Different shells handle '[' differently in subsitutions like ${VAR/$FIND/$REPLACE},
+  # like MKSH.
+  # Therefore, we have to check if {{[color]}} works.
+  COLOR="BOLD" should-match-output "$(echo -e this is ${Bold}[bold]${Reset})" \
+    'mksh_setup COLORIZE "this is {{[bold]}}"'
 }
 
 COLOR_TO_CODE () {
@@ -72,9 +79,8 @@ COLOR_TO_CODE () {
   echo -E $VAL
 }
 
-# === {{CMD}}  "my {{text}}"
-# === {{CMD}}  "my {{text}}"   "-n -E"
-# === {{CMD}}  "my {{text}}"   "-n -E"
+# === {{CMD}}           "my {{text}}"
+# === {{CMD}}  "-n -E"  "my {{text}}"
 COLORIZE () {
 
   if [[ "$#" -eq 2 ]]; then
@@ -105,9 +111,14 @@ COLORIZE () {
         DEFAULT_COLOR="$COLOR"
       fi
     fi
+
     MATCH=$(echo "$PARTIAL" | cut -d'{' -f3- | rev | cut -d'}' -f3- | rev)
     REPLACE="$NOT_A_COLOR$(COLOR_TO_CODE "$COLOR" 2>/dev/null || "${DEFAULT_COLOR}")$MATCH$(COLOR_TO_CODE "RESET")"
-    TEXT="${TEXT//$PARTIAL/$REPLACE}"
+
+    # NOTE: MKSH handles '[' differently in vars when using
+    # subsitutions like ${VAR/$PARTIAL/$REPLACE}.
+    # So we have to escape it by quoting the variables: ${VAR/"$PARTIAL"/"$REPLACE"}
+    TEXT="${TEXT//"$PARTIAL"/"$REPLACE"}"
   done
 
   echo $ECHO_ARGS "$TEXT"
