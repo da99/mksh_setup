@@ -16,14 +16,18 @@ watch-file () {
 
   bash_setup BOLD "=== Watching: {{$TARGET}} -> {{$cmd}}"
 
-  while read -r CHANGE; do
+ inotifywait  \
+   --quiet    \
+   --monitor  \
+   --event close_write \
+   --exclude .git/ "$(dirname "$TARGET")" | while read -r CHANGE; do
     dir=$(echo "$CHANGE" | cut -d' ' -f 1)
     op=$(echo "$CHANGE" | cut -d' ' -f 2)
     path="${dir}$(echo "$CHANGE" | cut -d' ' -f 3)"
     file="$(basename $path)"
     local FULLPATH="$(readlink -m "$path")"
 
-    echo -n "=== $CHANGE"
+    mksh_setup BOLD "-n" "=== {{Changed}}: $CHANGE"
 
     if [[ "$FULLPATH" != "$TARGET" ]]; then
       echo " (Skipping)"
@@ -32,5 +36,5 @@ watch-file () {
 
     echo ""
     $cmd || { stat="$?"; echo -e "=== ${Red}Failed${Color_Off}: $stat"; }
-  done < <(inotifywait --quiet --monitor --event close_write --exclude .git/ "$(dirname "$TARGET")")
+  done
 } # === end function
