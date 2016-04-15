@@ -4,7 +4,15 @@
 dirs-are-equal () {
   if [[ "$1" == "ignore-whitespace" ]]; then
     shift
-    diff --suppress-blank-empty --ignore-blank-lines --ignore-space-change "$@"
+    diff                          \
+      --side-by-side              \
+      --suppress-blank-empty      \
+      --ignore-trailing-space     \
+      --ignore-space-change       \
+      --ignore-all-space          \
+      --ignore-blank-lines        \
+      --suppress-common-lines     \
+      "$@"
     return 0
   fi
 
