@@ -25,13 +25,18 @@ watch () {
 
     if [[ ! -f "$path" ]] ; then
       echo -e "\n\n\e[1m=======================================================\e[0m"
-      echo -e "=== $CHANGE (Skipping)"
+      mksh_setup ORANGE "=== $CHANGE (Skipping {{non-file}})"
       continue
-    else
-      echo -e "=== $CHANGE"
     fi
 
-    $cmd || { stat="$?"; bash_setup RED "=== {{Failed}}: $stat"; }
+    if mksh_setup is-same-file "$path"; then
+      mksh_setup ORANGE "=== Skipping file {{$path}} ({{hasn't changed}})"
+      continue
+    fi
+
+    echo -e "=== $op $path"
+
+    $cmd || { stat="$?"; bash_setup RED "=== {{Failed}}: $stat ($cmd)"; }
   done
 } # === end function
 
