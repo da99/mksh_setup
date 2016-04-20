@@ -35,7 +35,8 @@ run-specs () {
   local FILE_ARG="$1"; shift
 
   if [[ -f "$FILE_ARG" ]]; then
-    local + x FILE="$FILE_ARG"
+    local +x FILE="$FILE_ARG"
+    local +x THIS_DIR="$PWD"
     source "$FILE"
     # NOTE: We can't use 'specs || report-fail'
     #  because of this:
