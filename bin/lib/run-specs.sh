@@ -9,15 +9,16 @@ BGreen='\e[1;32m'
 Orange='\e[0;33m'
 BOrange='\e[1;33m'
 
-# === {{CMD}}  spec-run                               # Run all specs in bin/lib
-# === {{CMD}}  spec-run  path/to/my-shell-script.sh
-# === {{CMD}}  spec-run  my-partial-name
+# === {{CMD}}  spec-run                       # Run all specs in bin/lib
+# === {{CMD}}  spec-run  path/to/filename.sh  other args
+# === {{CMD}}  spec-run  filename.sh          other args
+# === {{CMD}}  spec-run  file*                other args
 run-specs () {
 
   if [[ -z "$@" ]]; then
     for FILE in $(grep -r -l -P '^specs\s*\(\)' bin/lib); do
-      bash_setup BOLD "=== Specs: {{$FILE}}"
-      bash_setup run-specs "$FILE"
+      mksh_setup BOLD "=== Specs: {{$FILE}}"
+      mksh_setup run-specs "$FILE"
       echo ""
     done
 
@@ -42,25 +43,26 @@ run-specs () {
     #  because of this:
     #  http://stackoverflow.com/questions/4072984/set-e-in-a-function
     trap 'report-fail $?' EXIT
-    specs
+    specs "$@"
     trap - EXIT
     exit 0
   fi
 
-  FILES="$(find bin/lib -type f -name "$FILE_ARG*")"
+  FILES="$(find bin/lib -type f -name "$FILE_ARG" -print)"
 
   if [[ -z "$FILES" ]]; then
     mksh_setup RED "!!! Files {{not found}}: BOLD{{$FILE_ARG}}"
     exit 1
   fi
 
-  for FILE in $(echo "$FILES"); do
+  local +x IFS=$'\n'
+  for FILE in $FILES; do
     if [[ ! -s "$FILE" ]]; then
       mksh_setup RED "!!! File not found: {{$FILE_ARG}}"
       exit 0
     fi
 
-    mksh_setup run-specs "$FILE"
+    mksh_setup run-specs "$FILE" "$@"
   done
 }
 
