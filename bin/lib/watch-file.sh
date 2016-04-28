@@ -35,6 +35,6 @@ watch-file () {
     fi
 
     echo ""
-    $cmd || { stat="$?"; echo -e "=== ${Red}Failed${Color_Off}: $stat"; }
+    $cmd || { stat="$?"; mksh_setup RED "=== Command {{Failed}}: $stat"; }
   done
 } # === end function

@@ -36,7 +36,7 @@ watch () {
 
     echo -e "=== $op $path"
 
-    $cmd || { stat="$?"; bash_setup RED "=== {{Failed}}: $stat ($cmd)"; }
+    $cmd || { stat="$?"; mksh_setup RED "=== {{Failed}}: $stat ($cmd)"; }
   done
 } # === end function
 
