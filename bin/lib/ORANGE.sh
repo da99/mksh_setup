@@ -1,5 +1,6 @@
 
 # === {{CMD}}  "my string that is {{ orange }}"
+# === Outputs to Standard Error.
 
 source $THIS_DIR/bin/lib/COLORIZE.sh
 
@@ -18,7 +19,7 @@ specs () {
 }
 
 ORANGE () {
-  COLOR="BRIGHT_ORANGE" COLORIZE "$@"
+  COLOR="BRIGHT_ORANGE" COLORIZE "$@" >&2
 }
 
 
