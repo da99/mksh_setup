@@ -137,11 +137,11 @@ should-match-stderr () {
   else
     mksh_setup GREEN "=== {{Passed}}: $(echo -E $CMD)"
   fi
-} # === should-match-output
+} # === should-match-stderr
 
-#  should-match-output  "EXPECT"   "my-cmd -with -args"
-#  should-match-output  "EXPECT"   "ACTUAL"
-should-match-output () {
+#  should-match-stdout  "EXPECT"   "my-cmd -with -args"
+#  should-match-stdout  "EXPECT"   "ACTUAL"
+should-match-stdout () {
   local +x EXPECT="$1"; shift
   local +x CMD="$1"; shift
   local +x STAT
@@ -165,7 +165,7 @@ should-match-output () {
   else
     mksh_setup GREEN "=== {{Passed}}: $(echo -E $CMD)"
   fi
-} # === should-match-output
+} # === should-match-stdout
 
 #  should-match  "EXPECT"   "my-cmd -with -args"
 #  should-match  "EXPECT"   "ACTUAL"

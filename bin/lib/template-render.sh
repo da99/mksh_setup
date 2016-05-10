@@ -48,7 +48,7 @@ specs () {
   reset-fs
   bash_setup BOLD "-n" "=== Renders: {{ENV vars}}: "
   echo "RESULT: {{NAME}} {{CORP}}" > template.txt
-  should-match-output "RESULT: ted General Creative"  "NAME=\"ted\" CORP=\"General Creative\" bash_setup template-render template.txt"
+  should-match-stdout "RESULT: ted General Creative"  "NAME=\"ted\" CORP=\"General Creative\" bash_setup template-render template.txt"
   # =================================================================================================
 
 
