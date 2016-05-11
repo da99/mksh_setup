@@ -198,8 +198,8 @@ should-match () {
       ACTUAL="[NULL STRING]"
     fi
     exec >&2
-    echo -e -n "=== MISMATCH: \"${Red}"; echo -E -n "$ACTUAL";
-    echo -e -n "${Color_Off}\"  !=  \""; echo -E    "$EXPECT"
+    echo -e -n "=== MISMATCH: (actual) \"${Red}"; echo -E -n "$ACTUAL";
+    echo -e -n "${Color_Off}\"  != (expect) \""; echo -E    "$EXPECT\"";
     exit 1
   else
     mksh_setup GREEN "-n" "=== {{Passed}}: "; echo -E "$DESC"
