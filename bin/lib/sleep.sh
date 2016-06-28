@@ -1,5 +1,5 @@
 
-# === {{CMD}}
+# === {{CMD}}  # 60 seconds as default
 # === {{CMD}}  seconds-as-number
 sleep () {
   local SECONDS=60
