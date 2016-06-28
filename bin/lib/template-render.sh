@@ -61,6 +61,11 @@ specs () {
   should-match "tEd General Creative"  "bash_setup template-render  $TMP  template.txt"
   # =================================================================================================
 
+  # =================================================================================================
+  reset-fs
+  mksh_setup BOLD "-n" "=== Exits 1 if vars not found: "
+  echo "{{NAME}} {{CORP}}" > template.txt
+  should-exit 1 "mksh_setup template-render  $TMP  template.txt"
 
 } # === specs
 
