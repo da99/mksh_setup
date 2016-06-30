@@ -52,7 +52,7 @@ print-help () {
   [[ ! -d "$dir_functions" ]] && exit 0 || :
 
   local +x IFS=$'\n'
-  for FILE in $(find "$dir_functions" -type f -iname "*.sh" -print | sort); do
+  for FILE in $(find "$dir_functions" -maxdepth 1 -mindepth 1 -type f -iname "*.sh" -print | sort); do
     FUNCTION_NAME="$(basename "$FILE" .sh)"
     FINAL="=== BOLD{{$FUNCTION_NAME}}"
     for LINE in $(cat "$FILE" | grep -P  '^# ==='); do
