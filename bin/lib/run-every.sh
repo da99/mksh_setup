@@ -19,6 +19,6 @@ run-every () {
 
   while true; do
     sleep "$TIME"
-    $CMD
+    $CMD || :
   done
 } # === end function
