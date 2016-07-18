@@ -66,6 +66,11 @@ COLOR_TO_CODE () {
     BRIGHT_GREEN)
       VAL='\e[1;32m'
       ;;
+
+    YELLOW)
+      VAL='\e[0;33m'
+      ;;
+
     ORANGE|Orange)
       VAL='\e[0;33m'
       ;;
