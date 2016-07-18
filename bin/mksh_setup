@@ -19,12 +19,8 @@ case $action in
     ;;
 
   *)
-    func_file="$THIS_DIR/bin/lib/${action}.sh"
-    if [[ -s "$func_file" ]]; then
-      source "$func_file"
-      "$action" "$@"
-      exit 0
-    fi
+    source "$THIS_DIR/../mksh_setup/source/name-to-func.sh"
+    name-to-func "${action}" "$@"
 
     # === It's an error:
     echo "!!! Unknown action in ${0}: $THE_ARGS" 1>&2
