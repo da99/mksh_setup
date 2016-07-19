@@ -54,6 +54,13 @@ lib-to-public () {
     trash-put "$BIN_PUBLIC"
   fi
 
+  if [[ -d "$BIN_PUBLIC" ]]; then
+    for FILE in $(ag "^specs\ +\(\)" "$BIN_PUBLIC/" -G "_\.sh" -l); do
+      local +x SPEC_FILE="$(dirname "$FILE")/specs.sh"
+      nvim -O "$FILE" "$SPEC_FILE"
+    done
+  fi
+
 } # === end function
 
 
