@@ -1,18 +1,18 @@
 
 # === {{CMD}}  name
 # === {{CMD}}  folder/name
-# === Creates bin/lib/name.sh.
-# === If folder is specified, than it must be relative to bin/lib or to an existing folder.
+# === Creates bin/public/name/_.sh.
+# === If folder is specified, than it must be relative to bin/public or to an existing folder.
 new-func () {
   local folder="$(dirname "$1")"
   local name="$(basename "$1")"
   shift
 
   if [[ "$folder" == "$name" ]]; then
-    local FILE="bin/lib/${name}.sh"
+    local FILE="bin/public/${name}/_.sh"
   else
-    if [[ -d "bin/lib/$folder" ]]; then
-      local FILE="bin/lib/$folder/${name}.sh"
+    if [[ -d "bin/public/$folder" ]]; then
+      local FILE="bin/public/$folder/${name}.sh"
     else
       if [[ -d "$folder" ]]; then
         local FILE="$folder/${name}.sh"

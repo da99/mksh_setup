@@ -5,7 +5,14 @@ name-to-func () {
   local +x APP_DIR="$THIS_DIR"
   local +x LIB_FILE=""
 
-  LIB_FILE="$APP_DIR/funcs/${NAME}/_.sh"
+  LIB_FILE="$APP_DIR/bin/public/${NAME}.sh"
+  if [[ -f "$LIB_FILE" ]]; then
+    source "$LIB_FILE"
+    "$NAME" "$@"
+    exit 0
+  fi
+
+  LIB_FILE="$APP_DIR/bin/public/${NAME}/_.sh"
   if [[ -f "$LIB_FILE" ]]; then
     source "$LIB_FILE"
     "$NAME" "$@"
@@ -18,4 +25,5 @@ name-to-func () {
     "$NAME" "$@"
     exit 0
   fi
+exit 0
 } # === name-to-func

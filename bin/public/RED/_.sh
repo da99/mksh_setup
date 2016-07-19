@@ -1,5 +1,5 @@
 
-source $THIS_DIR/bin/lib/COLORIZE.sh
+source $THIS_DIR/bin/public/COLORIZE/_.sh
 
 specs () {
   local +x BRed='\e[1;31m'

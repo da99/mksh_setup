@@ -1,5 +1,5 @@
 
-source "$THIS_DIR/bin/lib/COLORIZE.sh"
+source "$THIS_DIR/bin/public/COLORIZE/_.sh"
 
 # === {{CMD}} dir/path
 # ===   Prints all *.sh files in dir
@@ -18,6 +18,9 @@ print-help () {
     print-dir "$TARGET"
     return 0
   fi
+
+  set -x
+  exit 0
 
   if [[ "$DIRNAME" == "bin" && -d "$LIB" ]]; then
     print-file "$TARGET"

@@ -1,11 +1,11 @@
 
-# === Expects names end in .sh:  bin/lib/name-goes-here.sh
+# === Expects names end in .sh:  bin/public/name-goes-here.sh
 # === Exits 1 if any conflicts found between file name and function name.
 # === {{CMD}}
 bin-lib-name-conflicts () {
 
   found=""
-  files="$(find $(echo /apps/*/bin/lib) -type f -iname '*.sh')"
+  files="$(find $(echo /apps/*/bin/public) -type f -iname '*.sh')"
   [[ -z "$files" ]] && { echo "=== No files found." 1>&2; exit 1; } || :
 
   while read FILE; do

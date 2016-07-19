@@ -1,7 +1,7 @@
 
 # === {{CMD}}  "my string that is {{ bold }}"
 
-source $THIS_DIR/bin/lib/COLORIZE.sh
+source $THIS_DIR/bin/public/COLORIZE/_.sh
 
 specs () {
   local +x RESET='\e[0m'
