@@ -19,11 +19,21 @@ name-to-func () {
   run-file () {
     local +x LIB_FILE="$1"; shift
 
-    export "THIS_DIR"="$APP_DIR"
 
     if [[ -f "$LIB_FILE" ]]; then
-      source "$LIB_FILE"
-      "$NAME" "$@"
+
+      export THIS_DIR="$APP_DIR"
+
+      if [[ "$LIB_FILE" == *progs/bin/* ]]; then
+        export PATH="$THIS_DIR/progs/bin:$PATH"
+        "$THIS_DIR"/progs/bin/"$NAME" "$@"
+      else
+        source "$LIB_FILE"
+        "$NAME" "$@"
+        LAST_EXIT="$?"
+        exit "$LAST_EXIT"
+      fi
+
       exit 0
     fi
   }
