@@ -25,6 +25,7 @@ print-help () {
     export BIN_NAME="$(basename "$TARGET_PATH")"
     export APP_DIR="$(dirname "$(dirname "$TARGET_PATH")" )"
     export APP_NAME="$(basename "$APP_DIR")"
+    export RELATIVE_APP_DIR="${APP_DIR/"$(dirname "$APP_DIR")"/".."}"
 
     cd "$APP_DIR"
 
@@ -36,6 +37,7 @@ print-help () {
       export FUNC_NAME="$(basename "$(dirname "$FILE")" )"
       export CMD="$BIN_NAME $FUNC_NAME"
       export FILE
+      export FILE_SUB_PATH="${FILE/"$APP_DIR/"/""}"
       IS_FOUND="yes"
       if [[ ! -z "$LIST_ONLY" ]]; then
         COLORIZE "BOLD{{$FUNC_NAME}}"
@@ -103,8 +105,11 @@ print-file () {
 
   MSG=${MSG//'# ==='/"  "}
   MSG=${MSG//'{{CMD}}'/"GREEN{{$BIN_NAME}}  ${FUNC_NAME} "}
+  MSG=${MSG//'{{FUNC_NAME}}'/"GREEN{{${FUNC_NAME}}}"}
   MSG=${MSG//'{{BIN}}'/"BOLD{{$BIN_NAME}}"}
   MSG=${MSG//'{{NAME}}'/"GREEN{{$FUNC_NAME}}"}
+  MSG=${MSG//'{{FILE_PATH}}'/"GREEN{{$FILE}}"}
+  MSG=${MSG//'{{SOURCE_PATH}}'/"GREEN{{\$THIS_DIR/$RELATIVE_APP_DIR/$FILE_SUB_PATH/}}"}
   FINAL="$FINAL\n$MSG"
 
   COLORIZE "$FINAL"

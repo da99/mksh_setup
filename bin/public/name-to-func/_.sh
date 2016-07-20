@@ -1,9 +1,12 @@
 
-# === {{CMD}} BIN_FILE  NAME  arg1 arg2 ...
+# === source {{SOURCE_PATH}}; {{FUNC_NAME}} BIN_FILE NAME  arg1 arg2 ...
+# === {{CMD}} BIN_FILE NAME  arg1 arg2 ...
+# ===
 # === Runs file in:
 # ===   public/NAME/_.sh,
 # ===   or progs/NAME/bin/NAME
 # ===   or progs/bin/NAME
+# ===
 # === Exits 1 if file not found.
 name-to-func () {
 
