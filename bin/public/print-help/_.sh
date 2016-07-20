@@ -9,7 +9,42 @@ source "$THIS_DIR/bin/public/COLORIZE/_.sh"
 # ===   then all the files in lib/ are also printed.
 print-help () {
 
-  local +x TARGET="$1"; shift
+  local +x ORIGINAL="$1"
+  local +x TARGET_PATH="$(realpath "$1")"; shift
+
+  # if bin/file
+  if [[ "$TARGET_PATH" == */bin/* ]]; then
+    export BIN_NAME="$(basename "$TARGET_PATH")"
+    export APP_DIR="$(dirname "$(dirname "$TARGET_PATH")" )"
+    export APP_NAME="$(basename "$APP_DIR")"
+
+    for FILE in $(find -L $(mksh_setup ls-dirs "$APP_DIR/bin/public") -maxdepth 1 -mindepth 1 -type f -name "_.sh" | sort); do
+      export FUNC_NAME="$(basename "$(dirname "$FILE")" )"
+      export CMD="$BIN_NAME $FUNC_NAME"
+      export FILE
+      print-file
+    done
+
+    return 0
+  fi
+
+  # if dir
+  if [[ -d "$TARGET_PATH" ]]; then
+    return 0
+  fi
+
+  # if _.sh shell file
+  if [[ "$TARGET_PATH" == */_.sh ]]; then
+    return 0
+  fi
+
+  # if non-_.sh shell file
+  if [[ "$TARGET_PATH" == *.sh ]]; then
+    return 0
+  fi
+
+  mksh_setup RED "!!! Unknown file to parse: {{${TARGET_PATH}}} ({{$ORIGINAL}})"
+
   local +x DIR="$(dirname "$(realpath "$TARGET")")"
   local +x DIRNAME="$(basename "$DIR")"
   local +x LIB="$DIR/lib"
@@ -19,21 +54,18 @@ print-help () {
     return 0
   fi
 
-  exit 0
-
-  if [[ "$DIRNAME" == "bin" && -d "$LIB" ]]; then
-    print-file "$TARGET"
-    print-dir "$LIB"
-    return 0
+  if [[ "$DIRNAME" == "bin" ]]; then
+    local +x APP_DIR="$(dirname "$DIR")"
+    local +x BIN_NAME="$(basename "$TARGET")"
+    for FILE in $(find -L $(mksh_setup ls-dirs "$DIR/public") -maxdepth 1 -mindepth 1 -type f -name "_.sh" | sort); do
+      echo "=== $FILE"
+      local +x NAME="$(  basename  "$(dirname "$FILE")"   )"
+      print-file "$APP_DIR" "$NAME" "$FILE"
+    done
   fi
 
-  if [[ -s "$TARGET" ]]; then
-    print-file "$TARGET"
-    return 0
-  fi
-
-  mksh_setup RED "=== Help not available for: "$TARGET""
-  exit 1
+  # mksh_setup RED "=== Help not available for: "$TARGET""
+  # exit 1
 
 } # === end function
 
@@ -63,11 +95,9 @@ print-file () {
   # ===      that are followed by: # ===
   # === $ mksh_setup print-help path/to/file
 
-  local +x FILE="$1"; shift
   local +x cmd_print=""
   local +x cmd=""
   local +x nl_printed=""
-  local +x BIN_NAME="$(basename "$FILE")"
   local +x IFS=$'\n'
 
   for line in $(cat $FILE); do
@@ -93,15 +123,15 @@ print-file () {
 
   done
 
-  FUNCTION_NAME="$(basename "$FILE" .sh)"
-  FINAL="=== BOLD{{$FUNCTION_NAME}}"
+  FINAL="=== BOLD{{$FUNC_NAME}}"
   for LINE in $(cat "$FILE" | grep -P  '^# ==='); do
     LINE=${LINE/'# ==='/}
-    LINE=${LINE//'{{CMD}}'/"GREEN{{$BIN_NAME}}  ${FUNCTION_NAME} "}
+    LINE=${LINE//'{{CMD}}'/"GREEN{{$BIN_NAME}}  ${FUNC_NAME} "}
     LINE=${LINE//'{{BIN}}'/"BOLD{{$BIN_NAME}}"}
-    LINE=${LINE//'{{NAME}}'/"GREEN{{$FUNCTION_NAME}}"}
+    LINE=${LINE//'{{NAME}}'/"GREEN{{$FUNC_NAME}}"}
     FINAL="$FINAL\n  $LINE"
   done
+
   COLORIZE "$FINAL"
 } # === print-file
 
