@@ -19,7 +19,6 @@ print-help () {
     return 0
   fi
 
-  set -x
   exit 0
 
   if [[ "$DIRNAME" == "bin" && -d "$LIB" ]]; then
