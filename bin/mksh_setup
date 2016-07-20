@@ -1,26 +1,10 @@
 #!/usr/bin/env mksh
 #
 #
-THE_ARGS="$@"
 THIS_DIR="$(dirname "$(dirname "$(readlink -m "$0")")")"
-
-if [[ -z "$@" ]]; then
-  action="watch"
-else
-  action=$1
-  shift
-fi
+action=$1; shift
 
 set -u -e -o pipefail
 
-case $action in
-  help|--help)
-    mksh_setup print-help $0
-    ;;
-
-  *)
-    source "$THIS_DIR/../mksh_setup/source/name-to-func-or-exit.sh"
-    name-to-func-or-exit "${action}" "$@"
-    ;;
-
-esac
+source "$THIS_DIR/bin/public/name-to-func/_.sh"
+name-to-func "$THIS_DIR" "${action}" "$@"
