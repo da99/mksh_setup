@@ -1,15 +1,15 @@
 
-# === {{CMD}} APP_DIR  NAME  arg1 arg2 ...
+# === {{CMD}} BIN_FILE  NAME  arg1 arg2 ...
 # === Runs file in:
 # ===   public/NAME/_.sh,
 # ===   or progs/NAME/bin/NAME
 # ===   or progs/bin/NAME
 # === Exits 1 if file not found.
 name-to-func () {
-  local +x APP_DIR="$1"; shift
-  if [[ -f "$APP_DIR" ]]; then
-    APP_DIR="$( dirname "$(dirname "$(readlink -m "$APP_DIR")")" )"
-  fi
+
+  local +x ORIGIN_PWD="$PWD"
+  local +x BIN_FILE="$1" ; shift
+  local +x APP_DIR="$( dirname "$(dirname "$(realpath "$BIN_FILE")")" )"
 
   local +x NAME="$1"; shift
   if [[ "$NAME" == '--help' || "$NAME" == '-h' ]]; then
@@ -18,7 +18,6 @@ name-to-func () {
 
   run-file () {
     local +x LIB_FILE="$1"; shift
-
 
     if [[ -f "$LIB_FILE" ]]; then
 
@@ -45,7 +44,7 @@ name-to-func () {
   run-file "$APP_DIR/bin/lib/${NAME}.sh"       "$@"
 
   if [[ "$NAME" == 'help' ]]; then
-    mksh_setup print-help $0
+    mksh_setup print-help "$BIN_FILE" "$@"
     exit 0
   fi
 

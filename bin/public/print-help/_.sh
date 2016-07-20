@@ -1,16 +1,24 @@
 
 source "$THIS_DIR/bin/public/COLORIZE/_.sh"
 
-# === {{CMD}} dir/path
-# ===   Prints all *.sh files in dir
-# === {{CMD}} path/to/file
-# ===   If file is in a dir called "bin/", and file is alongside
-# ===   another directory "lib",
-# ===   then all the files in lib/ are also printed.
+# === {{CMD}}
+# === {{CMD}} --list
+# === {{CMD}} 'My Perl RegExp'
 print-help () {
 
   local +x ORIGINAL="$1"
   local +x TARGET_PATH="$(realpath "$1")"; shift
+  local +x IS_FOUND=""
+  local +x LIST_ONLY=""
+
+  local +x SEARCH="/bin/public/"
+  if [[ ! -z "$@" && "$1" == "--list" ]]; then
+    LIST_ONLY="$1"; shift
+  fi
+
+  if [[ ! -z "$@" ]]; then
+    SEARCH="$1"; shift
+  fi
 
   # if bin/file
   if [[ "$TARGET_PATH" == */bin/* ]]; then
@@ -18,65 +26,32 @@ print-help () {
     export APP_DIR="$(dirname "$(dirname "$TARGET_PATH")" )"
     export APP_NAME="$(basename "$APP_DIR")"
 
-    for FILE in $(find -L $(mksh_setup ls-dirs "$APP_DIR/bin/public") -maxdepth 1 -mindepth 1 -type f -name "_.sh" | sort); do
+    cd "$APP_DIR"
+
+    for FILE in $( \
+      find -L "$APP_DIR/bin" -maxdepth 3 -mindepth 3 -type f  -name "_.sh" | \
+      grep -P "$SEARCH" | \
+      sort \
+    ); do
       export FUNC_NAME="$(basename "$(dirname "$FILE")" )"
       export CMD="$BIN_NAME $FUNC_NAME"
       export FILE
+      IS_FOUND="yes"
+      if [[ ! -z "$LIST_ONLY" ]]; then
+        COLORIZE "BOLD{{$FUNC_NAME}}"
+        continue
+      fi
       print-file
     done
 
-    return 0
   fi
 
-  # if dir
-  if [[ -d "$TARGET_PATH" ]]; then
-    return 0
+  if [[ -z "$IS_FOUND" ]]; then
+    mksh_setup RED "!!! Not found: {{${ORIGINAL}}} ({{$SEARCH}})"
+    exit 1
   fi
-
-  # if _.sh shell file
-  if [[ "$TARGET_PATH" == */_.sh ]]; then
-    return 0
-  fi
-
-  # if non-_.sh shell file
-  if [[ "$TARGET_PATH" == *.sh ]]; then
-    return 0
-  fi
-
-  mksh_setup RED "!!! Unknown file to parse: {{${TARGET_PATH}}} ({{$ORIGINAL}})"
-
-  local +x DIR="$(dirname "$(realpath "$TARGET")")"
-  local +x DIRNAME="$(basename "$DIR")"
-  local +x LIB="$DIR/lib"
-
-  if [[ -d "$TARGET" ]]; then
-    print-dir "$TARGET"
-    return 0
-  fi
-
-  if [[ "$DIRNAME" == "bin" ]]; then
-    local +x APP_DIR="$(dirname "$DIR")"
-    local +x BIN_NAME="$(basename "$TARGET")"
-    for FILE in $(find -L $(mksh_setup ls-dirs "$DIR/public") -maxdepth 1 -mindepth 1 -type f -name "_.sh" | sort); do
-      echo "=== $FILE"
-      local +x NAME="$(  basename  "$(dirname "$FILE")"   )"
-      print-file "$APP_DIR" "$NAME" "$FILE"
-    done
-  fi
-
-  # mksh_setup RED "=== Help not available for: "$TARGET""
-  # exit 1
 
 } # === end function
-
-
-print-dir () {
-  local +x DIR="$1"; shift
-  local +x IFS=$'\n'
-  for FILE in $(find "$DIR/" -mindepth 1 -maxdepth 1 -type f -name "*.sh" -print); do
-    print-file "$FILE"
-  done
-} # === print-dir
 
 print-file () {
   # === Accepts one arguments: one file.
@@ -123,14 +98,14 @@ print-file () {
 
   done
 
-  FINAL="=== BOLD{{$FUNC_NAME}}"
-  for LINE in $(cat "$FILE" | grep -P  '^# ==='); do
-    LINE=${LINE/'# ==='/}
-    LINE=${LINE//'{{CMD}}'/"GREEN{{$BIN_NAME}}  ${FUNC_NAME} "}
-    LINE=${LINE//'{{BIN}}'/"BOLD{{$BIN_NAME}}"}
-    LINE=${LINE//'{{NAME}}'/"GREEN{{$FUNC_NAME}}"}
-    FINAL="$FINAL\n  $LINE"
-  done
+  FINAL=" BOLD{{$FUNC_NAME}}"
+  local +x MSG="$(grep -P  "^# ===" "$FILE")"
+
+  MSG=${MSG//'# ==='/"  "}
+  MSG=${MSG//'{{CMD}}'/"GREEN{{$BIN_NAME}}  ${FUNC_NAME} "}
+  MSG=${MSG//'{{BIN}}'/"BOLD{{$BIN_NAME}}"}
+  MSG=${MSG//'{{NAME}}'/"GREEN{{$FUNC_NAME}}"}
+  FINAL="$FINAL\n$MSG"
 
   COLORIZE "$FINAL"
 } # === print-file
