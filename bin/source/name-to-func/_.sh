@@ -25,7 +25,8 @@ name-to-func () {
   fi
 
   if [[ "$THIS_FUNC" == 'help' ]]; then
-    mksh_setup print-help "$0" "$@"
+    source "$THIS_DIR/../mksh_setup/bin/public/print-help/_.sh"
+    print-help "$0" "$@"
     return 0
   fi
 
