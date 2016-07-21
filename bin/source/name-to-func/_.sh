@@ -18,6 +18,7 @@ name-to-func () {
   fi
 
   export THIS_FILE="$THIS_DIR/bin/public/${THIS_FUNC}/_.sh"
+  export THIS_FUNC_FILE="$THIS_DIR/bin/public/${THIS_FUNC}"
   if [[ -f  "$THIS_FILE"  ]]; then
     source "$THIS_FILE"
     "$THIS_FUNC" "$@"
