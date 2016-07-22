@@ -12,6 +12,7 @@ name-to-func () {
 
   export THIS_DIR="$( dirname "$(dirname "$(realpath "$0")")" )"
   export THIS_FUNC="$1"; shift
+  export MKSH_DIR="$THIS_DIR/../mksh_setup"
 
   if [[ "$THIS_FUNC" == '--help' || "$THIS_FUNC" == '-h' ]]; then
     THIS_FUNC="help"

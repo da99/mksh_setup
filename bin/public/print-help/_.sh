@@ -1,5 +1,5 @@
 
-source "$THIS_DIR/bin/public/COLORIZE/_.sh"
+source "$MKSH_DIR/bin/public/COLORIZE/_.sh"
 
 # === {{CMD}}
 # === {{CMD}} --list
