@@ -4,10 +4,12 @@
 # ===
 # === Runs file in:
 # ===   public/NAME/_.sh,
-# ===   or progs/NAME/bin/NAME
-# ===   or progs/bin/NAME
 # ===
 # === Exits 1 if file not found.
+# ===
+# === If NAME == "help" "-h" "--help",
+# ===  documentation is printed.
+# ===
 name-to-func () {
 
   export THIS_DIR="$( dirname "$(dirname "$(realpath "$0")")" )"
