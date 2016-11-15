@@ -14,14 +14,28 @@ fi
 set -u -e -o pipefail
 
 case $action in
-  help|--help)
-    mksh_setup print-help $0
+  help|--help|-h)
+    mksh_setup print-help $0 "$@"
     ;;
 
   *)
-    func_file="$THIS_DIR/bin/lib/${action}.sh"
-    if [[ -s "$func_file" ]]; then
-      source "$func_file"
+
+    FUNC_FILE="$THIS_DIR/bin/public/${action}/_.sh"
+
+    if [[ -s  "$FUNC_FILE"  ]]; then
+
+      export THIS_FILE="$FUNC_FILE"
+      export THIS_FUNC="$action"
+      export THIS_FUNC_DIR="$THIS_DIR/bin/public/${action}"
+
+      source "$THIS_FILE"
+      "$THIS_FUNC" "$@"
+      return 0
+    fi
+
+    BIN_FILE="$THIS_DIR/bin/lib/${action}.sh"
+    if [[ -s "$BIN_FILE" ]]; then
+      source "$BIN_FILE"
       "$action" "$@"
       exit 0
     fi
