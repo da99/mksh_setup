@@ -4,6 +4,8 @@ source "$MKSH_DIR/bin/public/COLORIZE/_.sh"
 # === {{CMD}}
 # === {{CMD}} --list
 # === {{CMD}} 'My Perl RegExp'
+# === Available values in doc comments: 
+# ===   CMD, FUNC_NAME, BIN, NAME, FILE_PATH, SOURCE_PATH, APP_NAME
 print-help () {
 
   local +x ORIGINAL="$1"
@@ -105,6 +107,7 @@ print-file () {
 
   MSG=${MSG//'# ==='/"  "}
   MSG=${MSG//'{{CMD}}'/"GREEN{{$BIN_NAME}}  ${FUNC_NAME} "}
+  MSG=${MSG//'{{APP_NAME}}'/"GREEN{{${APP_NAME}}}"}
   MSG=${MSG//'{{FUNC_NAME}}'/"GREEN{{${FUNC_NAME}}}"}
   MSG=${MSG//'{{BIN}}'/"BOLD{{$BIN_NAME}}"}
   MSG=${MSG//'{{NAME}}'/"GREEN{{$FUNC_NAME}}"}
