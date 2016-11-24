@@ -6,5 +6,9 @@ action=$1; shift
 
 set -u -e -o pipefail
 
-source "$THIS_DIR/bin/source/name-to-func/_.sh"
-name-to-func "${action}" "$@"
+# source "$THIS_DIR/bin/source/name-to-func/_.sh"
+# name-to-func "${action}" "$@"
+
+export MKSH_DIR="$THIS_DIR"
+source "$THIS_DIR/bin/public/$action/_.sh"
+$action "$@"
