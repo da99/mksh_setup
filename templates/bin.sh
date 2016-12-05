@@ -2,7 +2,7 @@
 #
 #
 THE_ARGS="$@"
-THIS_DIR="$(mksh_setup dirname_of_bin "$0")"
+THIS_DIR="$(dirname "$(dirname "$0")")"
 
 if [[ -z "$@" ]]; then
   action="watch"
