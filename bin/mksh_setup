@@ -2,13 +2,32 @@
 #
 #
 THIS_DIR="$(dirname "$(dirname "$(readlink -m "$0")")")"
-action=$1; shift
+THIS_ACTION=$1; shift
 
 set -u -e -o pipefail
 
-# source "$THIS_DIR/bin/source/name-to-func/_.sh"
-# name-to-func "${action}" "$@"
-
 export MKSH_DIR="$THIS_DIR"
-source "$THIS_DIR/bin/public/$action/_.sh"
-$action "$@"
+
+case "$THIS_ACTION" in
+
+  -h|--help|help)
+    source "$THIS_DIR/bin/public/print-help/_.sh"
+    print-help "$0" "$@"
+    return $?
+    ;;
+
+  *)
+
+    THIS_PUBLIC_FILE="$THIS_DIR/bin/public/$THIS_ACTION/_.sh"
+    if [[ -f "$THIS_PUBLIC_FILE" ]]; then
+      source "$THIS_PUBLIC_FILE"
+      $THIS_ACTION "$@"
+      return $?
+    fi
+
+    ;;
+esac
+
+
+echo "!!! Action not found: $@" >&2
+return 1

@@ -1,9 +1,9 @@
 
 source "$MKSH_DIR/bin/public/COLORIZE/_.sh"
 
-# === {{CMD}}
-# === {{CMD}} --list
-# === {{CMD}} 'My Perl RegExp'
+# === {{CMD}} bin/file
+# === {{CMD}} bin/file --list
+# === {{CMD}} bin/file 'My Perl RegExp'
 # === Available values in doc comments: 
 # ===   CMD, FUNC_NAME, BIN, NAME, FILE_PATH, SOURCE_PATH, APP_NAME
 print-help () {

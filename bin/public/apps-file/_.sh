@@ -29,7 +29,7 @@ apps-file () {
       echo "skipping: $DIR by request"
       continue
     fi
-    set -x
+    set '-x'
     git add $BIN
     git commit -am "Fixed: mksh_setup, no longer bash_setup"
     git push

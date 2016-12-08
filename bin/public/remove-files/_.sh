@@ -25,7 +25,7 @@ remove-files () {
   fi
 
   if [[ "$IS_LOUD" == "yes" ]]; then
-    set -x
+    set '-x'
   fi
 
   echo "$FILES" | xargs -I FILE rm FILE
