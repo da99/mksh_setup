@@ -14,7 +14,7 @@ watch-file () {
     exit 1
   fi
 
-  bash_setup BOLD "=== Watching: {{$TARGET}} -> {{$cmd}}"
+  sh_color BOLD "=== Watching: {{$TARGET}} -> {{$cmd}}"
 
  inotifywait  \
    --quiet    \
@@ -27,7 +27,7 @@ watch-file () {
     file="$(basename $path)"
     local FULLPATH="$(readlink -m "$path")"
 
-    mksh_setup BOLD "-n" "=== {{Changed}}: $CHANGE"
+    sh_color BOLD "-n" "=== {{Changed}}: $CHANGE"
 
     if [[ "$FULLPATH" != "$TARGET" ]]; then
       echo " (Skipping)"
@@ -35,6 +35,6 @@ watch-file () {
     fi
 
     echo ""
-    $cmd || { stat="$?"; mksh_setup RED "=== Command {{Failed}}: $stat"; }
+    $cmd || { stat="$?"; sh_color RED "=== Command {{Failed}}: $stat"; }
   done
 } # === end function

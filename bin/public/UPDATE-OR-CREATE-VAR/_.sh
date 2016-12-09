@@ -10,7 +10,7 @@ UPDATE-OR-CREATE-VAR () {
   local VAL="$@"
 
   if [[ ! -d "$DIR" ]]; then
-    mksh_setup RED "=== Directory {{does not exist}}: BOLD{{$DIR}}"
+    sh_color RED "=== Directory {{does not exist}}: BOLD{{$DIR}}"
     exit 1
   fi
 

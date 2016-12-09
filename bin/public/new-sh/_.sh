@@ -13,5 +13,5 @@ new-sh () {
   cp -i "$TEMPLATE" "$FILE"
   chmod +x "$FILE"
 
-  bash_setup GREEN "=== Created: {{${FILE}}}"
+  sh_color GREEN "=== Created: {{${FILE}}}"
 } # === end function

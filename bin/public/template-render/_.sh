@@ -9,7 +9,7 @@ template-render () {
   # === Install Handlebars:
   if [[ ! -d "$THIS_DIR/node_modules/handlebars" ]]; then
     cd $THIS_DIR
-    mksh_setup BOLD "=== Installing: {{handlebars}}" 1>&2
+    sh_color BOLD "=== Installing: {{handlebars}}" 1>&2
     set '-x'
     npm install handlebars >&2
     cd "$DIR"

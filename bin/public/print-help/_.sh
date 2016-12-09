@@ -51,7 +51,7 @@ print-help () {
   fi
 
   if [[ -z "$IS_FOUND" ]]; then
-    mksh_setup RED "!!! No help documentation found for: {{${ORIGINAL}}}"
+    sh_color RED "!!! No help documentation found for: {{${ORIGINAL}}}"
     exit 1
   fi
 

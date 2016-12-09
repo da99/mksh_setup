@@ -7,7 +7,7 @@ lib-to-public () {
   local +x BIN_PUBLIC="$DIR/bin/public"
 
   echo ""
-  mksh_setup BOLD "=== in {{$DIR}}"
+  sh_color BOLD "=== in {{$DIR}}"
 
   local +x IFS=$'\n'
 
@@ -24,7 +24,7 @@ lib-to-public () {
       mv -iv "$FILE" "$NEW_FILENAME"
     done # === for each FILE
   else
-    mksh_setup ORANGE "=== No {{bin/lib}} dir found."
+    sh_color ORANGE "=== No {{bin/lib}} dir found."
   fi
 
   # === mv bin/public/NAME.sh to bin/public/NAME/_.sh
@@ -39,18 +39,18 @@ lib-to-public () {
       mv -iv "$FILE" "$NEW_FILENAME"
     done # === for each FILE
   else
-    mksh_setup ORANGE "=== No {{bin/public}} dir found."
+    sh_color ORANGE "=== No {{bin/public}} dir found."
   fi
 
   # === Trash empty bin/lib
   if [[ -d "$BIN_LIB" && -z "$(ls -A "$BIN_LIB")" ]]; then
-    mksh_setup BOLD "=== Trashing {{$BIN_LIB}}"
+    sh_color BOLD "=== Trashing {{$BIN_LIB}}"
     trash-put "$BIN_LIB"
   fi
 
   # === Trash empty bin/public
   if [[ -d "$BIN_PUBLIC" && -z "$(ls -A "$BIN_PUBLIC")" ]]; then
-    mksh_setup BOLD "=== Trashing {{$BIN_PUBLIC}}"
+    sh_color BOLD "=== Trashing {{$BIN_PUBLIC}}"
     trash-put "$BIN_PUBLIC"
   fi
 

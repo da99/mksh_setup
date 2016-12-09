@@ -20,7 +20,7 @@ max-wait () {
        UNIT="seconds"
        ;;
      *)
-       mksh_setup RED "!!! Unknown value of time: $TIME"
+       sh_color RED "!!! Unknown value of time: $TIME"
        exit 1
        ;;
    esac
@@ -32,7 +32,7 @@ max-wait () {
        break;
      fi
      if [[ "$(date -d "today" +'%s')" -gt "$TARGET" ]]; then
-       mksh_setup RED "!!! Max {{time limit reached}}: BOLD{{$CMD}}"
+       sh_color RED "!!! Max {{time limit reached}}: BOLD{{$CMD}}"
        exit 1
      fi
      sleep 1

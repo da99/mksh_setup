@@ -7,7 +7,7 @@ run-every () {
   local +x TIME="$(mksh_setup to-seconds $1 || :)";
 
   if [[ -z "$TIME" ]]; then
-    mksh_setup RED "!!! Invalid time: $TIME"
+    sh_color RED "!!! Invalid time: $TIME"
     exit 1
   else
     shift

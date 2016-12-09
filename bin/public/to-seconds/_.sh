@@ -11,7 +11,7 @@ to-seconds () {
   local +x UNIT="$(echo $TIME | grep -Po "\d+\K(.)" || echo s)"
 
   if [[ -z "$NUM" || -z "$UNIT" ]]; then
-    mksh_setup RED "!!! Invalid value for time: $TIME"
+    sh_color RED "!!! Invalid value for time: $TIME"
     exit 1
   fi
 
@@ -29,7 +29,7 @@ to-seconds () {
       echo "$(($NUM))"
       ;;
     *)
-      mksh_setup RED "!!! Invalid value for time: $TIME"
+      sh_color RED "!!! Invalid value for time: $TIME"
       exit 1
       ;;
   esac

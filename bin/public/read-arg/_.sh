@@ -19,7 +19,7 @@ read-arg () {
   done
 
   if [[ -z "$FOUND" ]]; then
-    mksh_setup RED "!!! Arg not found: \"$NAME\"  from:  $THE_ARGS"
+    sh_color RED "!!! Arg not found: \"$NAME\"  from:  $THE_ARGS"
     exit 1
   fi
 

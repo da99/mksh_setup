@@ -17,7 +17,7 @@ new-bin () {
     mkdir -p bin
 
     cp -i "$THIS_DIR/templates/bin.sh" "bin/${file_name}"
-    bash_setup GREEN "=== Wrote: {{bin/${file_name}}}"
+    sh_color GREEN "=== Wrote: {{bin/${file_name}}}"
   fi
 
   chmod +x bin/${file_name}

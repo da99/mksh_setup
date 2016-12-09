@@ -13,7 +13,7 @@ remove-files () {
   local +x FILES="$(find "$DIR" -mindepth 1 -maxdepth 1 -type f -iname "$EXT")"
 
   if [[ ! -d "$DIR" ]]; then
-    mksh_setup RED "!!! Not a directory: $DIR"
+    sh_color RED "!!! Not a directory: $DIR"
     exit 1
   fi
 

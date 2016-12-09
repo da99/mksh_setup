@@ -28,6 +28,6 @@ case "$THIS_ACTION" in
     ;;
 esac
 
+echo "!!! Action not found: \"$THIS_NAME\", Arguments: $@" >&2
+exit 1
 
-echo "!!! Action not found: $@" >&2
-return 1

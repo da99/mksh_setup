@@ -39,7 +39,7 @@ name-to-func () {
     THIS_FUNC='[NULL]'
   fi
 
-  mksh_setup RED "!!! Unknown action: {{$THIS_FUNC}}"
+  sh_color RED "!!! Unknown action: {{$THIS_FUNC}}"
   exit 1
 } # === name-to-func
 

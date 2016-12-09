@@ -10,22 +10,22 @@ CREATE-VAR () {
   local +x FILE="$DIR/$NAME"
 
   if [[ -z "$VAL" ]]; then
-    mksh_setup RED "!!! Empty value for {{$NAME}}"
+    sh_color RED "!!! Empty value for {{$NAME}}"
     exit 1
   fi
 
   if [[ -e "$FILE" ]]; then
-    mksh_setup RED "=== Already {{exists}}: BOLD{{$FILE}} with content {{$(cat "$FILE")}}"
+    sh_color RED "=== Already {{exists}}: BOLD{{$FILE}} with content {{$(cat "$FILE")}}"
     exit 1
   fi
 
   if [[ ! -d "$DIR" ]]; then
-    mksh_setup RED "=== Create directory {{$DIR}} first. This helps to ensure you did not misspell the name of the directory."
+    sh_color RED "=== Create directory {{$DIR}} first. This helps to ensure you did not misspell the name of the directory."
     exit 1
   fi
 
   echo "$VAL" > "$FILE"
-  mksh_setup GREEN "=== Created: {{$FILE}}"
+  sh_color GREEN "=== Created: {{$FILE}}"
 } # === end function
 
 

@@ -7,7 +7,7 @@ age-in-days () {
   local +x TARGET="$(realpath "$1" || :)"; shift
 
   if [[ -z "$TARGET" || ! -e "$TARGET" ]]; then
-    mksh_setup RED "!!! {{$ORIGIN}}"
+    sh_color RED "!!! {{$ORIGIN}}"
     exit 1
   fi
 

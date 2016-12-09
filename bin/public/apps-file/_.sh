@@ -23,7 +23,7 @@ apps-file () {
       echo "skipping: $DIR - Not found: $BIN"
     fi
     git status
-    mksh_setup ORANGE "=== {{Continue}}? y/n"
+    sh_color ORANGE "=== {{Continue}}? y/n"
     read ANS
     if test "$ANS" != "y" ; then
       echo "skipping: $DIR by request"

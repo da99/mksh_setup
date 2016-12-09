@@ -32,5 +32,5 @@ new-func () {
     echo "} # === end function" >> "$FILE"
   fi
 
-  bash_setup GREEN "=== Created: {{${FILE}}}"
+  sh_color GREEN "=== Created: {{${FILE}}}"
 }

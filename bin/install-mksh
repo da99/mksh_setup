@@ -3,7 +3,7 @@
 #
 
 if which mksh && which busybox; then
-  bash_setup BOLD "==== Already installed: {{mksh}}, {{busybox}}"
+  sh_color BOLD "==== Already installed: {{mksh}}, {{busybox}}"
   exit 0
 fi
 
