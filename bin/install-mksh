@@ -21,4 +21,4 @@ if which pacman; then
   exit 0
 fi # === pacman
 
-bash_setup RED "=== Don't know how to install on: $(uname -osr)"
+sh_color RED "=== Don't know how to install on: $(uname -osr)"

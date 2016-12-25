@@ -6,7 +6,7 @@ new-sh () {
   local TEMPLATE="$THIS_DIR/templates/sh.sh"
 
   if [[ -s "$FILE" ]]; then
-    bash_setup RED "=== File already {{exists}}: $FILE"
+    sh_color RED "=== File already {{exists}}: $FILE"
     exit 1
   fi
 
