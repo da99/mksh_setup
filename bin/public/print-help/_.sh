@@ -14,6 +14,16 @@ print-help () {
   local +x LIST_ONLY=""
 
   local +x SEARCH="/bin/public/"
+
+  case "$@" in
+    --help|help)
+      sh_color BOLD "  {{help}}"
+      sh_color BOLD "  {{help}} 'My Perl RegExp'"
+      sh_color BOLD "  {{help}} --list"
+      return 0
+      ;;
+  esac
+
   if [[ ! -z "$@" && "$1" == "--list" ]]; then
     LIST_ONLY="$1"; shift
   fi
