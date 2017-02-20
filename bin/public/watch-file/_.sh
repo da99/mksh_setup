@@ -16,7 +16,15 @@ watch-file () {
 
   sh_color BOLD "=== Watching: {{$TARGET}} -> {{$cmd}}"
 
- inotifywait  \
+  if [[ ! -e "$TARGET" ]]; then
+    while [[ ! -e "$TARGET" ]]; do
+      sleep 1
+    done
+    sh_color BOLD "=== Created: $TARGET"
+    $cmd
+  fi
+
+  inotifywait  \
    --quiet    \
    --monitor  \
    --event close_write \

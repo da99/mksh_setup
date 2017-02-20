@@ -42,9 +42,9 @@ case $action in
     fi
 
     # === Check progs/bin:
-    if [[ -f "progs/bin/$action" ]]; then
-      export PATH="$PWD/progs/bin:$PATH"
-      progs/bin/$action "$@"
+    if [[ -f "$THIS_DIR/progs/bin/$action" ]]; then
+      export PATH="$THIS_DIR/progs/bin:$PATH"
+      "$THIS_DIR"/progs/bin/$action "$@"
       exit 0
     fi
 
