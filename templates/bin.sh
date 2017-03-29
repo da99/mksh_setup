@@ -30,7 +30,7 @@ case $ACTION in
 
       source "$THIS_FILE"
       "$THIS_FUNC" "$@"
-      return 0
+      exit 0
     fi
 
     BIN_FILE="$THIS_DIR/bin/lib/${ACTION}.sh"
