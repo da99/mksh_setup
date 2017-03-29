@@ -4,7 +4,10 @@
 THE_ARGS="$@"
 THIS_DIR="$(dirname "$(dirname "$0")")"
 
-ACTION="$1"; shift
+ACTION="[none]"
+if [[ ! -z "$@" ]]; then
+  ACTION="$1"; shift
+fi
 
 set -u -e -o pipefail
 
