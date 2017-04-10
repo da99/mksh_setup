@@ -8,7 +8,7 @@ set -u -e -o pipefail
 
 export MKSH_DIR="$THIS_DIR"
 
-export PATH="$PATH:$THIS_DIR/../sh_color/bin:$THIS_DIR/../sh_string/bin"
+export PATH="$PATH:$THIS_DIR/bin:$THIS_DIR/../sh_color/bin:$THIS_DIR/../sh_string/bin"
 case "$THIS_ACTION" in
 
   -h|--help|help)
