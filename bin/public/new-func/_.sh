@@ -1,20 +1,18 @@
 
 # === {{CMD}}  name
-# === {{CMD}}  folder-name/name
-# === Creates bin/folder-name/name/_.sh.
-# === Default: bin/public/name/_.sh
+# === Creates: bin/public/name/_.sh.
 new-func () {
-  local +x FOLDER="$(dirname "$1")"
-  local +x NAME="$(basename "$1")"
-  shift
-
-  if [[ "$FOLDER" == "$NAME" || "$FOLDER" == "." ]]; then
-    local +x FOLDER="public"
+  if [[ -z "$@" ]]; then
+    echo -n "Enter name of new function: "
+    read -r NAME
+  else
+    local +x NAME="$1"
+    shift
   fi
 
-  local +x FILE="bin/$FOLDER/$NAME/_.sh"
+  local +x FILE="bin/public/$NAME/_.sh"
 
-  mkdir -p "bin/$FOLDER/$NAME"
+  mkdir -p "bin/public/$NAME"
 
   local TEMPLATE="$THIS_DIR/templates/${NAME}.sh"
 
