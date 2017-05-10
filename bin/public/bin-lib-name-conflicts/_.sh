@@ -15,7 +15,7 @@ bin-lib-name-conflicts () {
     if [[ "$BASE" != "$FUNC" ]]; then
       found="yes"
       echo -n -e "!!! ${Red}Conflict${Color_Off}: $BASE != [" 1>&2
-      echo -n $(my_bash join-lines  "$FUNCTION_NAMES" ", ") 1>&2
+      echo -n $(mksh_setup join-lines  "$FUNCTION_NAMES" ", ") 1>&2
       echo -e "] in ${Bold}$FILE${Color_Off}" 1>&2
     # else
     #   echo -e "=== pass: ${Bold}$FILE${Color_Off}"
