@@ -4,7 +4,7 @@ forward-function () {
 
   local +x NAME="$1" ; shift
 
-  for REPO in $(echo sh_string sh_color mksh_setup bash_setup) ; do
+  for REPO in $(echo sh_string sh_color mksh_setup my_bash) ; do
     local +x FILE="$THIS_DIR/../$REPO/bin/public/$NAME/_.sh"
     if [[ -f "$FILE" ]]; then
       "$THIS_DIR"/../"$REPO"/bin/"$REPO" "$NAME" "$@"

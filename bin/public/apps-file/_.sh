@@ -31,7 +31,7 @@ apps-file () {
     fi
     set '-x'
     git add $BIN
-    git commit -am "Fixed: mksh_setup, no longer bash_setup"
+    git commit -am "Fixed: mksh_setup, no longer my_bash"
     git push
     set +x
   done

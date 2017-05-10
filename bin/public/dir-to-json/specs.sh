@@ -1,7 +1,7 @@
 
 
 specs () {
-  local TMP="/tmp/bash_setup/dir-to-json"
+  local TMP="/tmp/my_bash/dir-to-json"
   reset-fs () {
     rm -rf "$TMP"
     mkdir -p "$TMP"
@@ -12,7 +12,7 @@ specs () {
   reset-fs
   echo "ted" > NAME
   echo "General Creative" > CORP
-  should-match '{"CORP":"General Creative","NAME":"ted"}'  "bash_setup dir-to-json"
+  should-match '{"CORP":"General Creative","NAME":"ted"}'  "my_bash dir-to-json"
   # =================================================================================================
 
   # =================================================================================================
@@ -20,7 +20,7 @@ specs () {
   echo "ted" > NAME
   echo "General Creative" > CORP
   cd /tmp
-  should-match '{"CORP":"General Creative","NAME":"ted"}'  "bash_setup dir-to-json  $TMP"
+  should-match '{"CORP":"General Creative","NAME":"ted"}'  "my_bash dir-to-json  $TMP"
   # =================================================================================================
 } # === specs
 
