@@ -119,7 +119,7 @@ print-file () {
   MSG=${MSG//'{{CMD}}'/"GREEN{{$BIN_NAME}}  ${FUNC_NAME} "}
   MSG=${MSG//'{{APP_NAME}}'/"GREEN{{${APP_NAME}}}"}
   MSG=${MSG//'{{FUNC_NAME}}'/"GREEN{{${FUNC_NAME}}}"}
-  MSG=${MSG//'{{BIN}}'/"BOLD{{$BIN_NAME}}"}
+  MSG=${MSG//'{{BIN}}'/"GREEN{{$BIN_NAME}}"}
   MSG=${MSG//'{{NAME}}'/"GREEN{{$FUNC_NAME}}"}
   MSG=${MSG//'{{FILE_PATH}}'/"GREEN{{$FILE}}"}
   MSG=${MSG//'{{SOURCE_PATH}}'/"GREEN{{\$THIS_DIR/$RELATIVE_APP_DIR/$FILE_SUB_PATH/}}"}
