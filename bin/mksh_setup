@@ -1,10 +1,9 @@
 #!/usr/bin/env mksh
 #
 #
-THIS_DIR="$(dirname "$(dirname "$(readlink -m "$0")")")"
-THIS_ACTION=$1; shift
-
 set -u -e -o pipefail
+THIS_ACTION=$1; shift
+THIS_DIR="$(dirname "$(dirname "$(readlink -m "$0")")")"
 
 export MKSH_DIR="$THIS_DIR"
 

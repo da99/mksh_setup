@@ -1,15 +1,15 @@
 #!/usr/bin/env mksh
 #
 #
-THE_ARGS="$@"
-THIS_DIR="$(dirname "$(dirname "$(realpath "$0")")")"
-
 ACTION="[none]"
 if [[ ! -z "$@" ]]; then
   ACTION="$1"; shift
 fi
 
 set -u -e -o pipefail
+THE_ARGS="$@"
+THIS_DIR="$(dirname "$(dirname "$(realpath "$0")")")"
+
 
 case $ACTION in
 
