@@ -23,13 +23,19 @@ case $ACTION in
     FUNC_FILE="$THIS_DIR/bin/public/${ACTION}/_.sh"
 
     if [[ -s  "$FUNC_FILE"  ]]; then
-
       export THIS_FILE="$FUNC_FILE"
       export THIS_FUNC="$ACTION"
       export THIS_FUNC_DIR="$THIS_DIR/bin/public/${ACTION}"
 
       source "$THIS_FILE"
       "$THIS_FUNC" "$@"
+      exit 0
+    fi
+
+    SHELL_SCRIPT="$THIS_DIR/sh/${ACTION}"
+    if [[ -s  "$SHELL_SCRIPT"  ]]; then
+      source "$SHELL_SCRIPT"
+      $ACTION "$@"
       exit 0
     fi
 
