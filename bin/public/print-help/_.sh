@@ -6,8 +6,30 @@ source "$MKSH_DIR/../sh_color/bin/public/COLORIZE/_.sh"
 # === {{CMD}} bin/file 'My Perl RegExp'
 # === Available values in doc comments: 
 # ===   CMD, FUNC_NAME, BIN, NAME, FILE_PATH, SOURCE_PATH, APP_NAME
-print-help () {
 
+
+script-files () {
+  if [[ -d "$APP_DIR/bin" ]]; then
+    find -L "$APP_DIR/bin" \
+      -maxdepth 3 \
+      -mindepth 3 \
+      -type f     \
+      -name "_.sh" | \
+      grep -P "/bin/public" | \
+      sort || :
+  fi
+
+  if [[ -d "$APP_DIR/sh" ]]; then
+    find -L "$APP_DIR/sh" \
+      -maxdepth 2 \
+      -mindepth 2 \
+      -type f     \
+      -name "_" | \
+      sort || :
+  fi
+} # === script-files
+
+print-help () {
   local +x ORIGINAL="$1"
   local +x TARGET_PATH="$(realpath "$1")"; shift
   local +x IS_FOUND=""
@@ -41,11 +63,7 @@ print-help () {
 
     cd "$APP_DIR"
 
-    for FILE in $( \
-      find -L "$APP_DIR/bin" -maxdepth 3 -mindepth 3 -type f  -name "_.sh" | \
-      grep -P "$SEARCH" | \
-      sort \
-    ); do
+    for FILE in $( script-files ); do
       export FUNC_NAME="$(basename "$(dirname "$FILE")" )"
       export CMD="$BIN_NAME $FUNC_NAME"
       export FILE
@@ -127,5 +145,4 @@ print-file () {
 
   COLORIZE "$FINAL"
 } # === print-file
-
 
