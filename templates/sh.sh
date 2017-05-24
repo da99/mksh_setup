@@ -1,6 +1,6 @@
 #!/usr/bin/env mksh
 #
-# === {{CMD}} ...
+# === {{CMD}}
 #
 set -u -e -o pipefail
 
