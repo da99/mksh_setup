@@ -7,9 +7,9 @@ if [[ ! -z "$@" ]]; then
 fi
 
 set -u -e -o pipefail
-THE_ARGS="$@"
-THIS_DIR="$(dirname "$(dirname "$(realpath "$0")")")"
-
+local +x THE_ARGS="$@"
+local +x THIS_DIR="$(dirname "$(dirname "$(realpath "$0")")")"
+local +x PATH="$PATH:$THIS_DIR/bin"
 
 case $ACTION in
 
@@ -21,7 +21,6 @@ case $ACTION in
   *)
 
     FUNC_FILE="$THIS_DIR/bin/public/${ACTION}/_.sh"
-
     if [[ -s  "$FUNC_FILE"  ]]; then
       export THIS_FILE="$FUNC_FILE"
       export THIS_FUNC="$ACTION"
