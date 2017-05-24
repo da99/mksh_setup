@@ -81,6 +81,8 @@ print-help () {
   if [[ -z "$IS_FOUND" ]]; then
     sh_color RED "!!! No help documentation found for: {{${ORIGINAL}}}"
     exit 1
+  else
+    echo ""
   fi
 
 } # === end function
