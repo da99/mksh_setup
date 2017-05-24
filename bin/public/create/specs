@@ -3,6 +3,7 @@
 #
 set -u -e -o pipefail
 
+PATH="$PATH:$(dirname "$(realpath -m "$0")")/../.."
 local +x TMP="/tmp/mksh_setup/create"
 rm -rf "$TMP"
 mkdir -p "$TMP"
