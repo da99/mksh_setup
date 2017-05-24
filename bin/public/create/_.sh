@@ -1,11 +1,10 @@
 
 # === {{CMD}} bin   path/to/file
 # === {{CMD}} func  path/to/file
-# === {{CMD}} _     path/to/file
 # === {{CMD}} sh    path/to/file
 # === {{CMD}} sh/sh path/to/file
 # === {{CMD}} watch path/to/file
-# === {{CMD}}       path/to/file
+# === {{CMD}} spec  path/to/file
 create () {
   local +x FIRST="$1"; shift
   local +x SECOND=""
@@ -37,18 +36,22 @@ create () {
       ;;
 
     watch)
-      create-file "watch" sh/watch
+      create-file "watch" sh/watch/_
+      ;;
+
+    spec)
+      local +x NAME="$SECOND"
+      if [[ -d bin/public/$NAME ]]; then
+        local +x FILE="bin/public/$NAME/specs"
+      else
+        local +x FILE="sh/$NAME/specs"
+      fi
+      create-file "spec" "$FILE"
       ;;
 
     *)
-      if [[ ! -z "$SECOND" ]]; then
-        sh_color RED "!!! Unknown options: {{$FIRST $SECOND}}"
-        exit 2
-      fi
-
-      local +x THE_FILE="$FIRST"
-      local +x TEMPLATE="$(template "sh")"
-      create-file "$TEMPLATE" "$THE_FILE"
+      sh_color RED "!!! Unknown options: {{$FIRST $SECOND}}"
+      exit 2
       ;;
   esac
 } # === end function

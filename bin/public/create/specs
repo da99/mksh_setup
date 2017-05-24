@@ -1,0 +1,39 @@
+#!/usr/bin/env mksh
+#
+#
+set -u -e -o pipefail
+
+local +x TMP="/tmp/mksh_setup/create"
+rm -rf "$TMP"
+mkdir -p "$TMP"
+cd "$TMP"
+
+
+file () {
+  local +x TARGET="$1"; shift
+  local +x CMD="$@"
+  $CMD
+  if [[ ! -f "$TARGET" ]]; then
+    echo "!!! $CMD did not create: $TARGET"
+    exit 1
+  fi
+}
+
+
+file bin/create \
+  mksh_setup create bin
+
+file bin/public/my-func/_.sh \
+  mksh_setup create func  my-func
+
+file my.sh \
+  mksh_setup create sh my.sh
+
+file sh/my-script/_ \
+  mksh_setup create sh/sh my-script
+
+file sh/watch/_ \
+  mksh_setup create watch
+
+file sh/my-script/specs \
+  mksh_setup create spec  my-script

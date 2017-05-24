@@ -1,0 +1,4 @@
+#!/usr/bin/env mksh
+#
+#
+set -u -e -o pipefail
