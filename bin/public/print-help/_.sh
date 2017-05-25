@@ -3,31 +3,64 @@ source "$MKSH_DIR/../sh_color/bin/public/COLORIZE/_.sh"
 
 # === {{CMD}} bin/file
 # === {{CMD}} bin/file --list
-# === {{CMD}} bin/file 'My Perl RegExp'
+# === {{CMD}} bin/file 'substring'
 # === Available values in doc comments: 
 # ===   CMD, FUNC_NAME, BIN, NAME, FILE_PATH, SOURCE_PATH, APP_NAME
 
+echo-file-if-match () {
+  local +x FILE="$1"; shift
+  local +x NAME="$1"; shift
+  local +x SEARCH="$@"
+  if [[ -z "$SEARCH" ]]; then
+    echo "$FILE"
+    return 0
+  fi
 
+  if [[ "$NAME" == *$SEARCH* ]]; then
+    echo "$FILE"
+  fi
+}
 script-files () {
-  if [[ -d "$APP_DIR/bin" ]]; then
-    find -L "$APP_DIR/bin" \
-      -maxdepth 3 \
-      -mindepth 3 \
-      -type f     \
-      -name "_.sh" | \
-      grep -P "/bin/public" | \
-      sort || :
+  local +x SEARCH="$@"
+  { bin-public-files "$SEARCH";
+  sh-scripts "$SEARCH"; } | sort
+} # === script-files
+
+bin-public-files () {
+  if [[ ! -d "$APP_DIR/bin" ]]; then
+    return 0
   fi
 
-  if [[ -d "$APP_DIR/sh" ]]; then
-    find -L "$APP_DIR/sh" \
-      -maxdepth 2 \
-      -mindepth 2 \
-      -type f     \
-      -name "_" | \
-      sort || :
+  local +x SEARCH="$@"
+  find -L "$APP_DIR/bin" \
+    -maxdepth 3 \
+    -mindepth 3 \
+    -type f     \
+    -name "_.sh" | \
+    grep -P "/bin/public" | {
+   while read -r FILE ; do
+     echo-file-if-match "$FILE" "${FILE#*/bin/public}" "$SEARCH"
+   done
+  } || :
+} # === bin-public-funcs
+
+sh-scripts () {
+  if [[ ! -d "$APP_DIR/sh" ]]; then
+    return 0
   fi
-} # === script-files
+
+  local +x SEARCH="$@"
+  find -L "$APP_DIR/sh" \
+    -maxdepth 2 \
+    -mindepth 2 \
+    -type f     \
+    -name "_" | {
+      while read -r FILE ; do
+        echo-file-if-match "$FILE" "${FILE#*/sh}" "$SEARCH"
+      done
+    } || :
+} # === sh-scripts
+
 
 print-help () {
   local +x ORIGINAL="$1"
@@ -35,7 +68,7 @@ print-help () {
   local +x IS_FOUND=""
   local +x LIST_ONLY=""
 
-  local +x SEARCH="/bin/public/"
+  local +x SEARCH=""
 
   case "$@" in
     --help|help)
@@ -63,7 +96,7 @@ print-help () {
 
     cd "$APP_DIR"
 
-    for FILE in $( script-files ); do
+    for FILE in $( script-files "$SEARCH" ); do
       export FUNC_NAME="$(basename "$(dirname "$FILE")" )"
       export CMD="$BIN_NAME $FUNC_NAME"
       export FILE

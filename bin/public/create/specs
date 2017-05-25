@@ -12,7 +12,7 @@ cd "$TMP"
 file () {
   local +x TARGET="$1"; shift
   local +x CMD="$@"
-  $CMD
+  $CMD >/dev/null
   if [[ ! -f "$TARGET" ]]; then
     echo "!!! $CMD did not create: $TARGET"
     exit 1

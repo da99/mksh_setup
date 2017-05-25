@@ -1,0 +1,12 @@
+#!/usr/bin/env mksh
+#
+#
+set -u -e -o pipefail
+
+local +x PATH="$PATH:$PWD/bin"
+
+mksh_setup help         >/dev/null
+mksh_setup help  --list >/dev/null
+mksh_setup help  help   >/dev/null
+
+
