@@ -2,8 +2,8 @@
 #
 #
 set -u -e -o pipefail
-THIS_ACTION=$1; shift
-THIS_DIR="$(dirname "$(dirname "$(readlink -m "$0")")")"
+local +x THIS_ACTION=$1; shift
+local +x THIS_DIR="$(dirname "$(dirname "$(readlink -m "$0")")")"
 
 export MKSH_DIR="$THIS_DIR"
 
@@ -18,7 +18,7 @@ case "$THIS_ACTION" in
 
   *)
 
-    THIS_PUBLIC_FILE="$THIS_DIR/bin/public/$THIS_ACTION/_.sh"
+    local +x THIS_PUBLIC_FILE="$THIS_DIR/bin/public/$THIS_ACTION/_.sh"
     if [[ -f "$THIS_PUBLIC_FILE" ]]; then
       source "$THIS_PUBLIC_FILE"
       $THIS_ACTION "$@"
