@@ -9,12 +9,12 @@ fi
 set -u -e -o pipefail
 local +x THE_ARGS="$@"
 local +x THIS_DIR="$(dirname "$(dirname "$(realpath "$0")")")"
-local +x PATH="$PATH:$THIS_DIR/bin"
+PATH="$PATH:$THIS_DIR/bin"
 
 case $ACTION in
 
   help|--help|-h)
-    local +x PATH="$PATH:$THIS_DIR/../mksh_setup/bin"
+    PATH="$PATH:$THIS_DIR/../mksh_setup/bin"
     mksh_setup print-help $0 "$@"
     ;;
 
