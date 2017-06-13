@@ -4,6 +4,14 @@
 #
 set -u -e -o pipefail
 
-echo "!!! Not implemented." >&2
-exit 1
+local +x ACTION=$1; shift
+
+case "$1" in
+
+  *)
+    echo "!!! Invalid option: $@" >&2
+    exit
+    ;;
+
+esac
 

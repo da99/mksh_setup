@@ -14,11 +14,15 @@ create () {
 
   case "$FIRST" in
     func)
-      create-file "func" "bin/public/$SECOND/_.sh"
+      if test -d sh ; then
+        create-file "sh.sh" sh/"$SECOND"/_
+      else
+        create-file "func" "bin/public/$SECOND/_.sh"
+      fi
       ;;
 
-    sh)
-      create-file "sh" "$SECOND"
+    awk|py|sh)
+      create-file "$FIRST" "$SECOND"
       ;;
 
     "sh/sh")
