@@ -15,8 +15,11 @@ KSH (Korn Shell)
 Guidelines
 =========
 
-Once I start "sourcing" other files that I wrote, then it's
+* Once I start "sourcing" other files that I wrote, then it's
 a sign I need to use Crystal.
+
+* `local +x PATH` -- Don't use this because it sets PATH to an NULL string
+  for sub/child processes.
 
 TODO:
 ===========

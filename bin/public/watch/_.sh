@@ -1,6 +1,11 @@
 
 # === {{CMD}}  "my args to inotifywait"   "my cmd -with -args"
 watch () {
+  if [[ $(pgrep -f -- "$(echo $@)" | wc -l) -gt 3 ]]; then
+    echo "!!! Already running: $@" >&2
+    exit 1
+  fi
+
   #
   #  For more info on inotifywait:
   #    http://manpages.ubuntu.com/manpages/hardy/man1/inotifywait.1.html
