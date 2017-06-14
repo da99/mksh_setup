@@ -6,7 +6,7 @@ set -u -e -o pipefail
 
 local +x ACTION=$1; shift
 
-case "$1" in
+case "$ACTION" in
 
   *)
     echo "!!! Invalid option: $@" >&2
