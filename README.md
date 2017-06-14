@@ -12,6 +12,12 @@ KSH (Korn Shell)
 ===
 * https://www.ibm.com/support/knowledgecenter/ssw_aix_72/com.ibm.aix.osdevice/korn_shell_enhanced.htm
 
+Guidelines
+=========
+
+Once I start "sourcing" other files that I wrote, then it's
+a sign I need to use Crystal.
+
 TODO:
 ===========
 
