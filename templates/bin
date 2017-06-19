@@ -1,12 +1,14 @@
 #!/usr/bin/env mksh
 #
 #
-ACTION="[none]"
-if [[ ! -z "$@" ]]; then
-  ACTION="$1"; shift
-fi
 
 set -u -e -o pipefail
+
+local +x ACTION="[none]"
+if [[ ! -z "$@" ]]; then
+  local +x ACTION="$1"; shift
+fi
+
 local +x THE_ARGS="$@"
 local +x THIS_DIR="$(dirname "$(dirname "$(realpath "$0")")")"
 PATH="$PATH:$THIS_DIR/bin"
@@ -19,15 +21,10 @@ case $ACTION in
     ;;
 
   *)
-
     local +x FUNC_FILE="$THIS_DIR/bin/public/${ACTION}/_.sh"
     if [[ -s  "$FUNC_FILE"  ]]; then
-      export THIS_FILE="$FUNC_FILE"
-      export THIS_FUNC="$ACTION"
-      export THIS_FUNC_DIR="$THIS_DIR/bin/public/${ACTION}"
-
-      source "$THIS_FILE"
-      "$THIS_FUNC" "$@"
+      source "$FUNC_FILE"
+      "$ACTION" "$@"
       exit 0
     fi
 
@@ -37,14 +34,6 @@ case $ACTION in
       exit 0
     fi
 
-    local +x BIN_FILE="$THIS_DIR/bin/lib/${ACTION}.sh"
-    if [[ -s "$BIN_FILE" ]]; then
-      source "$BIN_FILE"
-      "$ACTION" "$@"
-      exit 0
-    fi
-
-    # === Check progs/bin:
     if [[ -f "$THIS_DIR/progs/bin/$ACTION" ]]; then
       export PATH="$THIS_DIR/progs/bin:$PATH"
       "$THIS_DIR"/progs/bin/$ACTION "$@"
