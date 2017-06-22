@@ -10,7 +10,7 @@ case "$ACTION" in
 
   *)
     echo "!!! Invalid option: $@" >&2
-    exit
+    exit 1
     ;;
 
 esac

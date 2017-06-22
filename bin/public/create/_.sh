@@ -14,7 +14,7 @@ create () {
 
   case "$FIRST" in
     func)
-      if test -d sh ; then
+      if test -d sh || ! test -d bin/public ; then
         create-file "sh.sh" sh/"$SECOND"/_
       else
         create-file "func" "bin/public/$SECOND/_.sh"

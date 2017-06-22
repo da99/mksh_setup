@@ -40,14 +40,11 @@ watch-file () {
     file="$(basename $path)"
     local FULLPATH="$(readlink -m "$path")"
 
-    sh_color BOLD "-n" "=== {{Changed}}: $CHANGE"
-
     if [[ "$FULLPATH" != "$TARGET" ]]; then
-      echo " (Skipping)"
       continue
     fi
 
-    echo ""
+    sh_color BOLD "=== {{Changed}}: $CHANGE"
     $cmd || { stat="$?"; sh_color RED "=== Command {{Failed}}: $stat"; }
   done
 } # === end function
