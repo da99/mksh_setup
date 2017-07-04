@@ -29,8 +29,8 @@ watch () {
     file="$(basename $path)"
 
     if [[ ! -f "$path" ]] ; then
-      echo -e "\n\n\e[1m=======================================================\e[0m"
-      sh_color ORANGE "=== $CHANGE (Skipping {{non-file}})"
+      # echo -e "\n\n\e[1m=======================================================\e[0m"
+      # sh_color ORANGE "=== $CHANGE (Skipping {{non-file}})"
       continue
     fi
 
@@ -39,7 +39,7 @@ watch () {
       continue
     fi
 
-    echo -e "=== $op $path"
+    sh_color BOLD "=== {{$path}} - $op - $(date +'%I:%M:%S')"
 
     $cmd || { stat="$?"; sh_color RED "=== {{Failed}}: $stat ($cmd)"; }
   done
