@@ -1,6 +1,6 @@
 
 # === {{CMD}}
 is-dev () {
-   test -n "$IS_DEV"
+   test -n "$IS_DEVELOPMENT"
 } # === end function
 
